@@ -12,8 +12,8 @@ function GroupComponent() {
     const [seeEnter, setSeeEnter] = useState(true)
     function enterAGroup() {
         //TODO : axios call to backend to see if group exists, if a group exists setSeePlalyist to true
-        setSeePlaylist(true)
-        setSeeCreateGroup(false)
+        setSeePlaylist(false)
+        setSeeCreateGroup(true)
         setSeeEnter(false)
 
     }
@@ -23,7 +23,7 @@ function GroupComponent() {
         //get email from session stroage
         let emailOfLoginUser = window.localStorage.getItem("email")
         setSeeCreateGroup(false)
-        setSeePlaylist(false)
+        setSeePlaylist(true)
 
     }
 

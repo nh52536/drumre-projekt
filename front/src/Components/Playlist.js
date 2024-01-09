@@ -213,7 +213,7 @@ function Playlist({username}) {
                         onChange={handleChange}
                         placeholder="Type something..."
                     />
-                    <button onClick={getSongsFromArtist}>SEARCH</button>
+                    <button disabled={inputValue.length == 0} onClick={getSongsFromArtist}>SEARCH</button>
                  
                     {authorTrack !== null && (
                         <div>
