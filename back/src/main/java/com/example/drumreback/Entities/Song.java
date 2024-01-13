@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class Song {
     @Id
-    private Integer songId;
+    private String songId;
     private String author;
     private int popularity; // 0 - 100
 }

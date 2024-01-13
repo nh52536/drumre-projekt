@@ -23,7 +23,7 @@ function Playlist({username}) {
     const [displayX, setDisplayX] = useState(true);
     useEffect(() => {
         // TODO: call an axios message to get all the songs from the database for the user logged in
-        let response = axios.get("http://localhost:8080/likedSongs",{"songs":{"username": "","playlistId" : {"creatorUsername" : "", "playListName" : ""} }})
+        let response = axios.get("http://localhost:8080/likedSongs",{"username": "","playlistId" : {"creatorUsername" : "", "playListName" : ""}})
         console.log(response)
         // TODO add response songs to selectedSongs
         console.log(selectedSongs)
@@ -96,7 +96,7 @@ function Playlist({username}) {
             setSelectedSongs([...selectedSongs, songId]);
         }
 
-        let response = axios.post("http://localhost:8080/addToPlaylist",{"song" : {"songId" : "", "authorId" : "","popularity": 3},"playlistId" : {"creatorUsername" : "", "playListName" : ""}  , "username" : "user1"})
+        let response = axios.post("http://localhost:8080/addToPlaylist",{"song" : {"songId" : "", "authorId" : "","popularity": 3},"username" : "user1", "playlistId" : {"creatorUsername" : "", "playListName" : ""}})
     }
 
     function removeFromSelectedSongs(songId) {
@@ -104,7 +104,7 @@ function Playlist({username}) {
         if (selectedSongs.includes(songId)) {
             setSelectedSongs(selectedSongs.filter((id) => id !== songId));
         }
-        let response = axios.delete("http://localhost:8080/deleteFromPlaylist",{"song" : {"songId" : "", "authorId" : "","popularity": 3},"playlistId" : {"creatorUsername" : "", "playListName" : ""}  , "username" : "user1"})
+        let response = axios.delete("http://localhost:8080/deleteFromPlaylist",{"username" : "user1", "playlistId" : {"creatorUsername" : "", "playListName" : ""}, "songId" : ""})
 
     }
 

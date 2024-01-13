@@ -55,9 +55,7 @@ function App() {
                     console.error("Error fetching user information:", error);
                 });
             let response = axios.get("http://localhost:8080/createUser",{
-                "username" : "fabijan2",
-                "createdPlaylists" : [],
-                "inPlaylists" : []
+                "username" : "fabijan2"
             })
             if(response.status === 200) {
                 console.log("User added")

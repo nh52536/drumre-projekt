@@ -24,4 +24,6 @@ public class SongInPlaylistService {
     public void save(SongInPlaylist sip) {
         songInPlaylistRepository.save(sip);
     }
+
+    public void delete(SongInPlaylist sip) { songInPlaylistRepository.deleteById(sip.getSongInPlaylistId()  );}
 }

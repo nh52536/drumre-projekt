@@ -1,7 +1,10 @@
 package com.example.drumreback.Controllers;
 
 import com.example.drumreback.Entities.*;
+import com.example.drumreback.RequestBodies.AddToPlaylistRequest;
 import com.example.drumreback.RequestBodies.CreatePlaylistRequest;
+import com.example.drumreback.RequestBodies.DeleteFromPlaylistRequest;
+import com.example.drumreback.RequestBodies.GetLikedSongsRequest;
 import com.example.drumreback.Services.PlaylistService;
 import com.example.drumreback.Services.SongInPlaylistService;
 import com.example.drumreback.Services.SongService;
@@ -42,13 +45,14 @@ public class PlaylistController {
     @PostMapping(path = "/join",
                 consumes = MediaType.APPLICATION_JSON_VALUE,
                 produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Boolean> join(@RequestBody PlaylistId playlistId, @RequestParam String username) {
-        Optional<Playlist> optionalPlaylist = playlistService.findPlaylistById(playlistId);
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<Boolean> join(@RequestBody GetLikedSongsRequest request) {
+        Optional<Playlist> optionalPlaylist = playlistService.findPlaylistById(request.getPlaylistId());
 
         if (optionalPlaylist.isPresent()) {
-            userService.addUserToPlaylist(userService.findUserById(username).get(), playlistService.findPlaylistById(playlistId).get());
-            User user = userService.findUserById(username).get();
-            user.getInPlaylists().add(playlistId);
+            userService.addUserToPlaylist(userService.findUserById(request.getUsername()).get(), playlistService.findPlaylistById(request.getPlaylistId()).get());
+            User user = userService.findUserById(request.getUsername()).get();
+            user.getInPlaylists().add(request.getPlaylistId());
             userService.save(user);
 
             return new ResponseEntity<>(true, HttpStatus.OK);
@@ -63,14 +67,15 @@ public class PlaylistController {
     @PostMapping(path = "/createPlaylist",
                 consumes = MediaType.APPLICATION_JSON_VALUE,
                 produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Boolean> createPlaylist(@RequestBody CreatePlaylistRequest request, @RequestParam String username) {
-        PlaylistId playlistId = new PlaylistId(username, request.getPlaylistName());
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<Boolean> createPlaylist(@RequestBody CreatePlaylistRequest request) {
+        PlaylistId playlistId = new PlaylistId(request.getUsername(), request.getPlaylistName());
         if (playlistService.findPlaylistById(playlistId).isPresent())
             return new ResponseEntity<>(false, HttpStatus.OK);
 
         Playlist playlist = playlistService.addPlaylist(playlistId);
 
-        User user = userService.findUserById(username).get();
+        User user = userService.findUserById(request.getUsername()).get();
         user.getInPlaylists().add(playlistId);
         user.getCreatedPlaylistsNames().add(request.getPlaylistName());
         userService.save(user);
@@ -83,14 +88,15 @@ public class PlaylistController {
     @PostMapping(path = "/addToPlaylist",
                 consumes = MediaType.APPLICATION_JSON_VALUE,
                 produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Boolean> addToPlaylist(@RequestBody Song song, @RequestParam String username, @RequestParam String playlistName, @RequestParam String creator) {
-        PlaylistId playlistId = new PlaylistId(creator, playlistName);
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<Boolean> addToPlaylist(@RequestBody AddToPlaylistRequest request) {
+        PlaylistId playlistId = request.getPlaylistId();
         Playlist playlist = playlistService.findPlaylistById(playlistId).get();
 
-        SongInPlaylistId id = new SongInPlaylistId(playlistName, creator, song.getSongId());
+        SongInPlaylistId id = new SongInPlaylistId(request.getPlaylistId().getPlaylistName(), request.getPlaylistId().getCreatorUsername(), request.getSong().getSongId());
         if (songInPlaylistService.getSongInPlaylist(id).isPresent()) {
             SongInPlaylist SIP = songInPlaylistService.getSongInPlaylist(id).get();
-            SIP.getAddedBy().add(username);
+            SIP.getAddedBy().add(request.getUsername());
             songInPlaylistService.save(SIP);
             playlistService.savePlaylist(playlist);
 
@@ -98,8 +104,8 @@ public class PlaylistController {
         }
         else {
             List<String> addedBy = new ArrayList<>();
-            addedBy.add(username);
-            SongInPlaylist songInPlaylist = new SongInPlaylist(id, song, addedBy);
+            addedBy.add(request.getUsername());
+            SongInPlaylist songInPlaylist = new SongInPlaylist(id, request.getSong(), addedBy);
             songInPlaylistService.save(songInPlaylist);
 
             playlist.getSongs().add(songInPlaylist);
@@ -112,22 +118,33 @@ public class PlaylistController {
 
 
     @DeleteMapping(path = "/deleteFromPlaylist")
-    public ResponseEntity<Boolean> deleteFromPlaylist(@RequestParam String username, @RequestParam String playlistName, @RequestParam String creator, @RequestParam int songId) {
-        SongInPlaylistId sipID = new SongInPlaylistId(playlistName, creator, songId);
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<Boolean> deleteFromPlaylist(@RequestBody DeleteFromPlaylistRequest request) {
+        SongInPlaylistId sipID = new SongInPlaylistId(request.getPlaylistId().getPlaylistName(), request.getPlaylistId().getCreatorUsername(), request.getSongId());
         SongInPlaylist sip = songInPlaylistService.getSongInPlaylist(sipID).get();
-        PlaylistId pID = new PlaylistId(creator, playlistName);
+        PlaylistId pID = request.getPlaylistId();
         Playlist playlist = playlistService.findPlaylistById(pID).get();
 
-        sip.getAddedBy().remove(username);
+        sip.getAddedBy().remove(request.getUsername());
 
         if (sip.getAddedBy().isEmpty()) {
             playlist.getSongs().remove(sip);
-        }
-        else {
-            songInPlaylistService.save(sip);
+            songInPlaylistService.delete(sip);
         }
 
+        songInPlaylistService.save(sip);
         playlistService.savePlaylist(playlist);
+
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+
+
+
+    @DeleteMapping(path = "/deletePlaylist")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<Boolean> deletePlaylist(@RequestBody PlaylistId request) {
+        playlistService.delete(request);
 
         return new ResponseEntity<>(true, HttpStatus.OK);
     }

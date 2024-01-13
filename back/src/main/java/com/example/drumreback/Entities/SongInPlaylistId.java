@@ -12,7 +12,7 @@ import java.util.Objects;
 public class SongInPlaylistId {
     private String playlistName;
     private String playlistCreator;
-    private int songId;
+    private String songId;
 
     @Override
     public int hashCode() {

@@ -8,6 +8,7 @@ import com.example.drumreback.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.management.PlatformLoggingMXBean;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -39,4 +40,6 @@ public class PlaylistService {
     public void savePlaylist(Playlist playlist) {
         playlistRepository.save(playlist);
     }
+
+    public void delete(PlaylistId id) { playlistRepository.deleteById(id); }
 }

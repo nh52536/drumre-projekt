@@ -1,6 +1,7 @@
 package com.example.drumreback.Controllers;
 
 import com.example.drumreback.Entities.*;
+import com.example.drumreback.RequestBodies.GetLikedSongsRequest;
 import com.example.drumreback.Services.PlaylistService;
 import com.example.drumreback.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class UserController {
 
 
     @GetMapping("users")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<List<User>> getAll() {
         return new ResponseEntity<List<User>>(userService.getAllUsers(), HttpStatus.OK);
     }
@@ -36,11 +38,15 @@ public class UserController {
     @PostMapping(path = "/createUser",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    //TODO : change to string
-    public ResponseEntity<Boolean> create(@RequestBody User user) {
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<Boolean> create(@RequestBody String username) {
 
-        if (userService.findUserById(user.getUsername()).isPresent())
+        if (userService.findUserById(username).isPresent())
             return new ResponseEntity<>(false, HttpStatus.OK);
+
+        List<String> ls = new ArrayList<>();
+        List<PlaylistId> lp = new ArrayList<>();
+        User user = new User(username, ls, lp);
 
         userService.addUser(user);
         return new ResponseEntity<>(true, HttpStatus.OK);
@@ -49,19 +55,18 @@ public class UserController {
 
 
     @GetMapping("likedSongs")
-    //TODO : sve u jedan body
-    public ResponseEntity<List<Song>> getLikedSongs(@RequestParam String username, @RequestParam String playlistName, @RequestParam String creator) {
-        PlaylistId playlistId = new PlaylistId(creator, playlistName);
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<List<String>> getLikedSongs(@RequestBody GetLikedSongsRequest request) {
+        PlaylistId playlistId = request.getPlaylistId();
         Playlist playlist = playlistService.findPlaylistById(playlistId).get();
 
-        List<Song> ret = new ArrayList<>();
+        List<String> ret = new ArrayList<>();
 
         List<SongInPlaylist> songsInPlaylist = playlist.getSongs();
         for (SongInPlaylist s : songsInPlaylist) {
-            if (s.getAddedBy().contains(username))
-                ret.add(s.getSong());
+            if (s.getAddedBy().contains(request.getUsername()))
+                ret.add(s.getSong().getSongId());
         }
-// TODO : return List<SongID>=  List<String>
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 }
