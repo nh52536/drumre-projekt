@@ -10,10 +10,17 @@ function GroupComponent() {
 
     const [seePlaylist, setSeePlaylist] = useState(false)
     const  [seeCreateGroup, setSeeCreateGroup] = useState(false)
+    const [playListName, setPlayListName] = useState("")
+    const [creator,setCreator] = useState("")
     const [seeEnter, setSeeEnter] = useState(true)
     function enterAGroup() {
         //TODO : axios call to backend to see if group exists, if a group exists setSeePlalyist to true
-        let response = axios.post("http://localhost:8080/join",{"playlistId" : {"creatorUsername" : "", "playListName" : ""}  , "username" : "user1"});
+        let response = axios.post("http://localhost:8080/join",{"playlistId" : {"creatorUsername" : "", "playListName" : ""}  , "username" : "user1"}, {
+            headers: {
+                'Content-Type': 'application/json'
+            }});
+
+
         if(response.body == true) {
             setSeePlaylist(true)
             //setSeeCreateGroup(false)
@@ -23,14 +30,16 @@ function GroupComponent() {
            // setSeeCreateGroup(true)
         }
         setSeeEnter(false)
-
     }
 
     function createAGroup() {
         // TODO : axios call to backend to create a group, if a group is created setSeePlalyist to true, send a request with the name of the group and the email of the user
         //get email from session stroage
 
-        var response = axios.post("http://localhost:8080/createPlaylist",{"request" : {"playlistName":"playlistNAME","user" : {"username":window.localStorage.getItem("email")}}})
+        let response = axios.post("http://localhost:8080/createPlaylist",{"request" : {"playlistName":"playlistNAME","user" : {"username":window.localStorage.getItem("email")}}}, {
+            headers: {
+                'Content-Type': 'application/json'
+            }});
        if(response.body == true) {
               setSeePlaylist(true)
        }else if (response.body == false) {
@@ -41,14 +50,25 @@ function GroupComponent() {
         setSeeCreateGroup(false)
         setSeePlaylist(true)
     }
+    const handleInputChange = (event) => {
+        setPlayListName(event.target.value);
+    };
+
+    const handleInputChange2 = (event) => {
+        setCreator(event.target.value);
+    };
+
 
     return (
         <div>
-            {seeEnter && <div> <input type="text" placeholder="Enter group name"/>
-                <div><input type="text" placeholder="Enter a creator"/></div>
-                <button onClick={enterAGroup}>Enter a group</button></div>}
-            //TODO : input parameters for creating a group
+            {seeEnter && <div> <input type="text"  value={playListName}
+                                      onChange={handleInputChange} placeholder="Enter group name"/>
+                <div><input type="text" value={creator}
+                            onChange={handleInputChange2} placeholder="Enter a creator"/></div>
+                <button onClick={enterAGroup}>Enter a group</button>
+            <button onClick={() => {setSeeCreateGroup(true); setSeeEnter(false)}}>I WANT TO CREATE A PLAYLIST </button></div>}
             {seePlaylist && <Playlist/>}
+
             {seeCreateGroup && <div><input type="text"  placeholder="Enter group name you want to create"/><button onClick={createAGroup}>CREATE A GROUP</button></div>
             }
         </div>

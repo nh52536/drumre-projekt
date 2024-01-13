@@ -42,10 +42,9 @@ function App() {
                     const username = response.data.display_name || response.data.id;
                     if (response.data.email) {
                         const email = response.data.email;
-                        retrieveUserData(email)
+
                         const type = response.data.product;
                         //console.log("Email:", email);
-                        handleSubmit(email, username, type)
                         window.localStorage.setItem("email", email)
                     } else {
                         console.log("Email not available");
@@ -54,9 +53,14 @@ function App() {
                 .catch(error => {
                     console.error("Error fetching user information:", error);
                 });
+
+
+
             let response = axios.get("http://localhost:8080/createUser",{
                 "username" : "fabijan2"
-            })
+            }, {headers: {
+                'Content-Type': 'application/json'
+            }})
             if(response.status === 200) {
                 console.log("User added")
             }
