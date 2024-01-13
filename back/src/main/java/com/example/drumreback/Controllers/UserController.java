@@ -1,6 +1,7 @@
 package com.example.drumreback.Controllers;
 
 import com.example.drumreback.Entities.*;
+import com.example.drumreback.RequestBodies.CreateUserRequest;
 import com.example.drumreback.RequestBodies.GetLikedSongsRequest;
 import com.example.drumreback.Services.PlaylistService;
 import com.example.drumreback.Services.UserService;
@@ -39,14 +40,14 @@ public class UserController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<Boolean> create(@RequestBody String username) {
+    public ResponseEntity<Boolean> create(@RequestBody CreateUserRequest request) {
 
-        if (userService.findUserById(username).isPresent())
+        if (userService.findUserById(request.getUsername()).isPresent())
             return new ResponseEntity<>(false, HttpStatus.OK);
 
         List<String> ls = new ArrayList<>();
         List<PlaylistId> lp = new ArrayList<>();
-        User user = new User(username, ls, lp);
+        User user = new User(request.getUsername(), ls, lp);
 
         userService.addUser(user);
         return new ResponseEntity<>(true, HttpStatus.OK);
