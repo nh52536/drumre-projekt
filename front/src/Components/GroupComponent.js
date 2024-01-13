@@ -15,7 +15,7 @@ function GroupComponent() {
     const [seeEnter, setSeeEnter] = useState(true)
     function enterAGroup() {
         //TODO : axios call to backend to see if group exists, if a group exists setSeePlalyist to true
-        let response = axios.post("http://localhost:8080/join",{"playlistId" : {"creatorUsername" : "", "playListName" : ""}  , "username" : "user1"}, {
+        let response = axios.post("http://localhost:8080/join",{"username": "","playlistId" : {"creatorUsername" : "", "playListName" : ""}}, {
             headers: {
                 'Content-Type': 'application/json'
             }});
@@ -36,7 +36,7 @@ function GroupComponent() {
         // TODO : axios call to backend to create a group, if a group is created setSeePlalyist to true, send a request with the name of the group and the email of the user
         //get email from session stroage
 
-        let response = axios.post("http://localhost:8080/createPlaylist",{"request" : {"playlistName":"playlistNAME","user" : {"username":window.localStorage.getItem("email")}}}, {
+        let response = axios.post("http://localhost:8080/createPlaylist",{"playlistName":"playlistNAME","username":window.localStorage.getItem("email")}, {
             headers: {
                 'Content-Type': 'application/json'
             }});
