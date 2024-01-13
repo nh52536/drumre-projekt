@@ -23,6 +23,9 @@ function Playlist({username}) {
     const [displayX, setDisplayX] = useState(true);
     useEffect(() => {
         // TODO: call an axios message to get all the songs from the database for the user logged in
+        let response = axios.get("http://localhost:8080/likedSongs",{"songs":{"username": "","playlistId" : {"creatorUsername" : "", "playListName" : ""} }})
+        console.log(response)
+        // TODO add response songs to selectedSongs
         console.log(selectedSongs)
     }, [selectedSongs]);
     const handleChange = (e) => {
@@ -58,10 +61,7 @@ function Playlist({username}) {
     };
 
 
-    const deleteFrom = async (trackName) => {
-        console.log("trackName", trackName + "email", email)
-        await deleteDoc(doc(db, email, trackName.toString()));
-    }
+
     const renderTracks = () => {
         return playlistTracks.map((track) => (
             <div key={track.track.id} className="track-item">
@@ -95,6 +95,8 @@ function Playlist({username}) {
         if (!selectedSongs.includes(songId)) {
             setSelectedSongs([...selectedSongs, songId]);
         }
+
+        let response = axios.post("http://localhost:8080/addToPlaylist",{"song" : {"songId" : "", "authorId" : "","popularity": 3},"playlistId" : {"creatorUsername" : "", "playListName" : ""}  , "username" : "user1"})
     }
 
     function removeFromSelectedSongs(songId) {
@@ -102,6 +104,7 @@ function Playlist({username}) {
         if (selectedSongs.includes(songId)) {
             setSelectedSongs(selectedSongs.filter((id) => id !== songId));
         }
+        let response = axios.delete("http://localhost:8080/deleteFromPlaylist",{"song" : {"songId" : "", "authorId" : "","popularity": 3},"playlistId" : {"creatorUsername" : "", "playListName" : ""}  , "username" : "user1"})
 
     }
 
@@ -132,17 +135,7 @@ function Playlist({username}) {
         ));
     };
 
-    const learnMoreAboutArtist = async (artistName) => {
-        //     try {
-        //         const {data} = await axios.get(
-        //             `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&api_key=0c3b96177c530815fc64df2a5bc3bfd1&artist=${artistName}&format=json`
-        //         );
-        //         setSelectedArtistInfo(data.artist);
-        //         setShowArtistInfo(true); // Set the state to true when "Learn More" is clicked
-        //     } catch (error) {
-        //         console.error("Error fetching artist information:", error);
-        //     }
-    };
+
 
     const getPlaylist = async (e) => {
         e.preventDefault();

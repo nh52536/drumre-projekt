@@ -36,7 +36,9 @@ public class UserController {
     @PostMapping(path = "/createUser",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    //TODO : change to string
     public ResponseEntity<Boolean> create(@RequestBody User user) {
+
         if (userService.findUserById(user.getUsername()).isPresent())
             return new ResponseEntity<>(false, HttpStatus.OK);
 
@@ -47,6 +49,7 @@ public class UserController {
 
 
     @GetMapping("likedSongs")
+    //TODO : sve u jedan body
     public ResponseEntity<List<Song>> getLikedSongs(@RequestParam String username, @RequestParam String playlistName, @RequestParam String creator) {
         PlaylistId playlistId = new PlaylistId(creator, playlistName);
         Playlist playlist = playlistService.findPlaylistById(playlistId).get();
@@ -58,7 +61,7 @@ public class UserController {
             if (s.getAddedBy().contains(username))
                 ret.add(s.getSong());
         }
-
+// TODO : return List<SongID>=  List<String>
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 }
