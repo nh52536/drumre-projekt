@@ -30,6 +30,7 @@ function GroupComponent() {
            // setSeeCreateGroup(true)
         }
         setSeeEnter(false)
+        setSeePlaylist(true)
     }
 
     function createAGroup() {
@@ -45,6 +46,7 @@ function GroupComponent() {
        }else if (response.body == false) {
            setSeePlaylist(false)
        }
+        setSeePlaylist(true)
 
         let emailOfLoginUser = window.localStorage.getItem("email")
         setSeeCreateGroup(false)
