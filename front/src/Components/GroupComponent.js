@@ -13,11 +13,12 @@ function GroupComponent() {
     const [playListName, setPlayListName] = useState("")
     const [creator,setCreator] = useState("")
     const [seeEnter, setSeeEnter] = useState(true)
+    const [groupName, setGroupName] = useState("")
     async function enterAGroup() {
         //TODO : axios call to backend to see if group exists, if a group exists setSeePlalyist to true
         let response = await axios.post("http://localhost:8080/join", {
-            username: window.localStorage.getItem("email"),
-            playlistId: {creatorUsername: creator, playListName: playListName}
+            "username": window.localStorage.getItem("email"),
+            "playlistId": {"creatorUsername": creator, "playlistName": playListName}
         }, {
             headers: {
                 'Content-Type': 'application/json'
@@ -25,8 +26,10 @@ function GroupComponent() {
         });
 
 
-        if (response.body == true) {
+        if (response.data == true) {
             setSeePlaylist(true)
+            window.localStorage.setItem("creatorUsername", creator)
+            window.localStorage.setItem("playlistName", playListName)
             //setSeeCreateGroup(false)
 
         } else {
@@ -41,16 +44,18 @@ function GroupComponent() {
         // TODO : axios call to backend to create a group, if a group is created setSeePlalyist to true, send a request with the name of the group and the email of the user
         //get email from session stroage
 
-        let response = await axios.post("http://localhost:8080/createPlaylist",{playlistName:playListName,username:window.localStorage.getItem("email")}, {
+        let response = await axios.post("http://localhost:8080/createPlaylist",{playlistName:groupName,username:window.localStorage.getItem("email")}, {
             headers: {
                 'Content-Type': 'application/json'
             }});
-       if(response.body == true) {
+       if(response.data == true) {
+           window.localStorage.setItem("creatorUsername", creator)
+           window.localStorage.setItem("playlistName", playListName)
               setSeePlaylist(true)
-       }else if (response.body == false) {
+       }else if (response.data == false) {
            setSeePlaylist(false)
        }
-        setSeePlaylist(true)
+        //setSeePlaylist(true)
 
         let emailOfLoginUser = window.localStorage.getItem("email")
         setSeeCreateGroup(false)
@@ -64,6 +69,11 @@ function GroupComponent() {
         setCreator(event.target.value);
     };
 
+    const handleInputChange3 = (event) => {
+        setGroupName(event.target.value);
+    };
+
+
 
     return (
         <div>
@@ -75,7 +85,8 @@ function GroupComponent() {
             <button onClick={() => {setSeeCreateGroup(true); setSeeEnter(false)}}>I WANT TO CREATE A PLAYLIST </button></div>}
             {seePlaylist && <Playlist/>}
 
-            {seeCreateGroup && <div><input type="text"  placeholder="Enter group name you want to create"/><button onClick={createAGroup}>CREATE A GROUP</button></div>
+            {seeCreateGroup && <div><input type="text"  value={groupName}
+                                           onChange={handleInputChange3} placeholder="Enter group name you want to create"/><button onClick={createAGroup}>CREATE A GROUP</button></div>
             }
         </div>
 )

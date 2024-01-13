@@ -55,7 +55,7 @@ public class UserController {
 
 
 
-    @GetMapping("likedSongs")
+    @PostMapping("likedSongs")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<List<String>> getLikedSongs(@RequestBody GetLikedSongsRequest request) {
         PlaylistId playlistId = request.getPlaylistId();
