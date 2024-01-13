@@ -55,9 +55,9 @@ function App() {
                 });
 
 
-
+            let username = window.localStorage.getItem("email")
             let response = axios.post("http://localhost:8080/createUser",{
-                username : window.localStorage.getItem("email")
+                username
             }, {headers: {
                 'Content-Type': 'application/json'
             }})

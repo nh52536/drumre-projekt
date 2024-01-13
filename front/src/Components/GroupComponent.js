@@ -13,31 +13,35 @@ function GroupComponent() {
     const [playListName, setPlayListName] = useState("")
     const [creator,setCreator] = useState("")
     const [seeEnter, setSeeEnter] = useState(true)
-    function enterAGroup() {
+    async function enterAGroup() {
         //TODO : axios call to backend to see if group exists, if a group exists setSeePlalyist to true
-        let response = axios.post("http://localhost:8080/join",{"username": "","playlistId" : {"creatorUsername" : "", "playListName" : ""}}, {
+        let response = await axios.post("http://localhost:8080/join", {
+            username: window.localStorage.getItem("email"),
+            playlistId: {creatorUsername: creator, playListName: playListName}
+        }, {
             headers: {
                 'Content-Type': 'application/json'
-            }});
+            }
+        });
 
 
-        if(response.body == true) {
+        if (response.body == true) {
             setSeePlaylist(true)
             //setSeeCreateGroup(false)
 
-        }else {
+        } else {
             setSeePlaylist(false)
-           // setSeeCreateGroup(true)
+            // setSeeCreateGroup(true)
         }
         setSeeEnter(false)
         setSeePlaylist(true)
     }
 
-    function createAGroup() {
+    async function createAGroup() {
         // TODO : axios call to backend to create a group, if a group is created setSeePlalyist to true, send a request with the name of the group and the email of the user
         //get email from session stroage
 
-        let response = axios.post("http://localhost:8080/createPlaylist",{"playlistName":"playlistNAME","username":window.localStorage.getItem("email")}, {
+        let response = await axios.post("http://localhost:8080/createPlaylist",{playlistName:playListName,username:window.localStorage.getItem("email")}, {
             headers: {
                 'Content-Type': 'application/json'
             }});
