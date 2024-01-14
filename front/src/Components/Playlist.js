@@ -20,12 +20,12 @@ function Playlist({username}) {
     const [inputValue, setInputValue] = useState('');
     useEffect(() => {
 
-        let response = axios.get("http://localhost:8080/likedSongs",{"username": "","playlistId" : {"creatorUsername" : "", "playListName" : ""}}, { headers: {
-                'Content-Type': 'application/json'
-            }})
-        console.log(response)
-        // TODO add response songs to selectedSongs
-        console.log(selectedSongs)
+         let response = axios.post("http://localhost:8080/likedSongs",{"username": window.localStorage.getItem("email"),"playlistId" : {"creatorUsername" : window.localStorage.getItem("creatorUsername"), "playlistName" : window.localStorage.getItem("playlistName")}}, { headers: {
+                 'Content-Type': 'application/json'
+             }}).then((response) => {console.log(response.data); setSelectedPlaylist(response.data)});
+
+        // // TODO add response songs to selectedSongs
+
     }, [selectedSongs]);
     const handleChange = (e) => {
         setInputValue(e.target.value);
@@ -70,16 +70,17 @@ function Playlist({username}) {
                     className="track-image"
                 />
                 <div className="track-info">
+                    <div className="track-popul">{track.track.popularity}</div>
                     <div className="track-name">{track.track.name}</div>
                     <div className="track-artist">
                         Artist: {track.track.artists[0].name}
                         {!selectedSongs.includes(track.track.id) && (
-                            <button className="heart-button" onClick={() => addToSelectedSongs(track.track.id)}>
+                            <button className="heart-button" onClick={() => addToSelectedSongs(track.track.id,track.track.artists[0].id,track.track.popularity)}>
                                 ❤
                             </button>
                         )}
                         {selectedSongs.includes(track.track.id) && (
-                            <button className="heart-button" onClick={() => removeFromSelectedSongs(track.track.id)}>
+                            <button className="heart-button" onClick={() => removeFromSelectedSongs(track.track.id,track.track.artists[0].id,track.track.popularity)}>
                                 ❤️
                             </button>
                         )}
@@ -89,14 +90,11 @@ function Playlist({username}) {
         ));
     };
 
-    function addToSelectedSongs(songId) {
-        //TODO : call an axios message to save to database
+    function addToSelectedSongs(songId,author,popularity) {
         if (!selectedSongs.includes(songId)) {
             setSelectedSongs([...selectedSongs, songId]);
         }
-
-   //     let response = axios.post("http://localhost:8080/addToPlaylist",{"song" : {"songId" : "", "authorId" : "","popularity": 3},"playlistId" : {"creatorUsername" : "", "playListName" : ""}  , "username" : "user1"})
-        let response = axios.post("http://localhost:8080/addToPlaylist",{"song" : {"songId" : "", "authorId" : "","popularity": 3},"username" : "user1", "playlistId" : {"creatorUsername" : "", "playListName" : ""}})
+        let response = axios.post("http://localhost:8080/addToPlaylist",{"song" : {"songId" : songId, "author" : author,"popularity": popularity},"username" : window.localStorage.getItem("email"), "playlistId" : {"creatorUsername" : window.localStorage.getItem("creatorUsername"), "playlistName" : window.localStorage.getItem("playlistName")}}, {headers: { 'Content-Type': 'application/json'}})
     }
 
     function removeFromSelectedSongs(songId) {
