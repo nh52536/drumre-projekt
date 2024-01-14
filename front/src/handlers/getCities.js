@@ -1,6 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
 import handleMsg from "./handleMsg";
-import {db} from "../firebase";
+import {db} from "../../src/firebase";
 const getCities = async (testdata) => {
 
     const docRef = doc(db, "cities", "SF");

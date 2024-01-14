@@ -28,13 +28,27 @@ function GroupComponent() {
     }
 
     return (
-        <div>
-            {seeEnter && <div> <input type="text" placeholder="Enter group name"/>
-                <button onClick={enterAGroup}>Enter a group</button></div>}
-            {seePlaylist && <Playlist/>}
-            {seeCreateGroup && <div><input type="text" placeholder="Enter group name you want to create"/><button onClick={createAGroup}>CREATE A GROUP</button></div>
+        <div >
+            {seeEnter && 
+            <div className="group-container"> 
+                Enter name of group to access group
+                <hr className="double-line" />
+                <input type="text" placeholder="Enter group name"/>
+                <button onClick={enterAGroup}>Enter a group</button>
+            </div>}
+            <div>
+                {seePlaylist && <Playlist/>}
+            </div>
+            {seeCreateGroup && 
+            <div className="group-container">
+                Enter name of group to create group
+                <hr className="double-line" />
+                <input type="text" placeholder="Enter group name you want to create"/>
+                <button onClick={createAGroup}>Create a group</button>
+                </div>
             }
         </div>
+
 )
 ;
 }
