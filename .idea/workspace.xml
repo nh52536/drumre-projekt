@@ -4,36 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5db4bfd2-3331-408f-b3ce-61d1d2d9a703" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/Components/GroupComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/Components/GroupComponent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/Components/Playlist.css" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/Components/Playlist.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/Components/Playlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/Components/Playlist.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/handlers/getCities.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/handlers/getCities.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/handlers/handleMsg.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/handlers/handleMsg.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/handlers/handleSubmit.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/handlers/handleSubmit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/GroupComponent.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Playlist.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Playlist.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/music2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/playlist.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/firebase.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/handlers/getCities.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/handlers/handleMsg.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/handlers/handleSubmit.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logo.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/music.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reportWebVitals.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/setupTests.js" beforeDir="false" />
-    </list>
+    <list default="true" id="5db4bfd2-3331-408f-b3ce-61d1d2d9a703" name="Changes" comment="Added" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -84,7 +55,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.DrumreBackApplication.executor": "Run",
     "Spring Boot.Unnamed.executor": "Run",
-    "git-widget-placeholder": "fabijan",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/38599/repos/DIGOBRZ/drumre-proba",
     "node.js.detected.package.eslint": "true",
@@ -172,9 +143,21 @@
       <workItem from="1704920982727" duration="27516000" />
       <workItem from="1705268286118" duration="204000" />
     </task>
+    <task id="LOCAL-00001" summary="Added">
+      <created>1705268963863</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1705268963863</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added" />
   </component>
 </project>
