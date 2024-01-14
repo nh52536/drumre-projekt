@@ -1,14 +1,12 @@
 package com.example.drumreback.Controllers;
 
 import com.example.drumreback.Entities.*;
-import com.example.drumreback.RequestBodies.AddToPlaylistRequest;
-import com.example.drumreback.RequestBodies.CreatePlaylistRequest;
-import com.example.drumreback.RequestBodies.DeleteFromPlaylistRequest;
-import com.example.drumreback.RequestBodies.GetLikedSongsRequest;
+import com.example.drumreback.RequestBodies.*;
 import com.example.drumreback.Services.PlaylistService;
 import com.example.drumreback.Services.SongInPlaylistService;
 import com.example.drumreback.Services.SongService;
 import com.example.drumreback.Services.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -159,5 +158,18 @@ public class PlaylistController {
         userService.save(user);
 
         return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+
+
+
+    @PostMapping(path = "/createCustomPlaylist",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<String> createCustomPlaylist(@RequestBody CreateCustomPlaylistRequest request) throws URISyntaxException, JsonProcessingException {
+        String playlistUri = playlistService.createCustomPlaylist(request.getToken(), request.getPlaylistId(), request.getId());
+
+        return new ResponseEntity<>(playlistUri, HttpStatus.OK);
     }
 }
