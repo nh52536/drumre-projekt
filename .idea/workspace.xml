@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5db4bfd2-3331-408f-b3ce-61d1d2d9a703" name="Changes" comment="Added">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back/src/main/java/com/example/drumreback/Controllers/PlaylistController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/main/java/com/example/drumreback/Controllers/PlaylistController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back/src/main/java/com/example/drumreback/Services/PlaylistService.java" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/main/java/com/example/drumreback/Services/PlaylistService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/Components/Playlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/Components/Playlist.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,7 +147,7 @@
       <workItem from="1704920982727" duration="27516000" />
       <workItem from="1705268286118" duration="204000" />
       <workItem from="1705269778541" duration="2376000" />
-      <workItem from="1705273082458" duration="753000" />
+      <workItem from="1705273082458" duration="1747000" />
     </task>
     <task id="LOCAL-00001" summary="Added">
       <created>1705268963863</created>
