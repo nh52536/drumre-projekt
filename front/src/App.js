@@ -16,7 +16,7 @@ import GroupComponent from "./Components/GroupComponent";
 function App() {
 
     // const CLIENT_ID = '59097828c7c14767b30fdc16ede83d49'
-    const CLIENT_ID = 'f2f2602f7a474bf789645a91e94452fc'
+    const CLIENT_ID = '59097828c7c14767b30fdc16ede83d49'
     const REDIRET_URI = 'http://localhost:3000/api/auth/callback/spotify'
     const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize'
     const RESPONSE_TYPE = 'token'
@@ -41,14 +41,17 @@ function App() {
             })
                 .then(response => {
                     console.log(response.data)
-                    const username = response.data.display_name || response.data.id;
                     if (response.data.email) {
                         const email = response.data.email;
                         let id = response.data.id;
-                        const type = response.data.product;
-                        //console.log("Email:", email);
                         window.localStorage.setItem("email", email)
                         window.localStorage.setItem("username_id", id)
+                        let username = window.localStorage.getItem("email")
+                        axios.post("http://localhost:8080/createUser",{
+                            username
+                        }, {headers: {
+                                'Content-Type': 'application/json'
+                            }});
                     } else {
                         console.log("Email not available");
                     }
@@ -58,15 +61,7 @@ function App() {
                 });
 
 
-            let username = window.localStorage.getItem("email")
-            let response = axios.post("http://localhost:8080/createUser",{
-                username
-            }, {headers: {
-                'Content-Type': 'application/json'
-            }})
-            if(response.status === 200) {
-                console.log("User added")
-            }
+
         }
     }, [])
 

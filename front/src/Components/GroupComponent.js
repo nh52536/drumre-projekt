@@ -9,13 +9,14 @@ function GroupComponent() {
     // nakon sto uspjesno napravi grupu ili pri druzi se grupi otvara se opcija da vidi svoje playlise i tarckove
 
     const [seePlaylist, setSeePlaylist] = useState(false)
-    const  [seeCreateGroup, setSeeCreateGroup] = useState(false)
+    const [seeCreateGroup, setSeeCreateGroup] = useState(false)
     const [playListName, setPlayListName] = useState("")
-    const [creator,setCreator] = useState("")
+    const [creator, setCreator] = useState("")
     const [seeEnter, setSeeEnter] = useState(true)
     const [groupName, setGroupName] = useState("")
     const [warning, setWarning] = useState(false)
     const [noPlaylist, setNoPlaylist] = useState(false)
+
     async function enterAGroup() {
         //TODO : axios call to backend to see if group exists, if a group exists setSeePlalyist to true
         let response = await axios.post("http://localhost:8080/join", {
@@ -42,23 +43,28 @@ function GroupComponent() {
 
     async function createAGroup() {
         // TODO : axios call to backend to create a group, if a group is created setSeePlalyist to true, send a request with the name of the group and the email of the user
-        let response = await axios.post("http://localhost:8080/createPlaylist",{playlistName:groupName,username:window.localStorage.getItem("email")}, {
+        let response = await axios.post("http://localhost:8080/createPlaylist", {
+            playlistName: groupName,
+            username: window.localStorage.getItem("email")
+        }, {
             headers: {
                 'Content-Type': 'application/json'
-            }});
-       if(response.data == true) {
-           setWarning(false)
-           console.log(creator + playListName)
-           window.localStorage.setItem("creatorUsername", window.localStorage.getItem("email"))
-           window.localStorage.setItem("playlistName", groupName)
-           setSeePlaylist(true)
-           setSeeCreateGroup(false)
-       }else if (response.data == false) {
-           setSeePlaylist(false)
-           setWarning(true)
-       }
+            }
+        });
+        if (response.data == true) {
+            setWarning(false)
+            console.log(creator + playListName)
+            window.localStorage.setItem("creatorUsername", window.localStorage.getItem("email"))
+            window.localStorage.setItem("playlistName", groupName)
+            setSeePlaylist(true)
+            setSeeCreateGroup(false)
+        } else if (response.data == false) {
+            setSeePlaylist(false)
+            setWarning(true)
+        }
 
     }
+
     const handleInputChange = (event) => {
         setPlayListName(event.target.value);
     };
@@ -72,41 +78,57 @@ function GroupComponent() {
     };
 
 
-
     return (
 
-        <div >
-          {!seeEnter && <button  onClick={() => {setSeePlaylist(false); setSeeEnter(true); setSeeCreateGroup(false);setWarning(false); setNoPlaylist(false)}}>CLOSE ALL NAD RETRUN TO CHOOSE A GROUP</button>}
+        <div>
+            {!seeEnter && <button onClick={() => {
+                setSeePlaylist(false);
+                setSeeEnter(true);
+                setSeeCreateGroup(false);
+                setWarning(false);
+                setNoPlaylist(false)
+                setCreator("")
+                setPlayListName("")
+            }}>CLOSE ALL NAD RETRUN TO CHOOSE A GROUP</button>}
 
-            {seeEnter && 
-            <div className="group-container"> 
-                Enter name of group to access group
-                <hr className="double-line" />
-                <input type="text"  value={playListName}
-                   onChange={handleInputChange} placeholder="Enter group name"/>
-                <input type="text" value={creator}
-                            onChange={handleInputChange2} placeholder="Enter a creator"/></div>
-                <button onClick={enterAGroup}>Enter a group</button>
-             <button onClick={() => {setSeeCreateGroup(true); setSeeEnter(false)}}>Create a playlist </button></div>}
-            </div>}
+            {seeEnter &&
+                <div className="group-container">
+                    Enter name of group to access group
+                    <hr className="double-line"/>
+                    <input type="text" value={playListName}
+                           onChange={handleInputChange} placeholder="Enter group name"/>
+                    <input type="text" value={creator}
+                           onChange={handleInputChange2} placeholder="Enter a creator"/>
+                    <button onClick={enterAGroup}>Enter a group</button>
+                    <button onClick={() => {
+                        setSeeCreateGroup(true);
+                        setSeeEnter(false)
+                    }}>Create a playlist
+                    </button>
+                </div>
+            }
+
+
             <div>
                 {seePlaylist && <Playlist/>}
-          {noPlaylist && <div>NO SUCH PLAYLIST EXISTS</div>}
+                {noPlaylist && <div>NO SUCH PLAYLIST EXISTS</div>}
             </div>
-            {seeCreateGroup && 
-            <div className="group-container">
-                Enter name of group to create group
-                <hr className="double-line" />
-                <input type="text"   value={groupName}
-                                           onChange={handleInputChange3}  placeholder="Enter group name you want to create"/>
-                <button onClick={createAGroup}>Create a group</button>  {warning && <div>A PLAYLIST WITH THAT NAME ALREADY EXISTS </div>}
+            {
+                seeCreateGroup &&
+                <div className="group-container">
+                    Enter name of group to create group
+                    <hr className="double-line"/>
+                    <input type="text" value={groupName}
+                           onChange={handleInputChange3} placeholder="Enter group name you want to create"/>
+                    <button onClick={createAGroup}>Create a group</button>
+                    {warning && <div>A PLAYLIST WITH THAT NAME ALREADY EXISTS </div>}
                 </div>
 
             }
         </div>
 
-)
-;
+    )
+        ;
 }
 
 export default GroupComponent;

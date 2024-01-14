@@ -21,8 +21,7 @@ function Playlist({ username }) {
     const [authorId, setAuthorId] = useState("");
     const [pop, setPop] = useState("");
     useEffect(() => {
-
-        let response = axios.post("http://localhost:8080/likedSongs", {
+        axios.post("http://localhost:8080/likedSongs", {
             "username": window.localStorage.getItem("email"),
             "playlistId": {
                 "creatorUsername": window.localStorage.getItem("creatorUsername"),
@@ -38,9 +37,7 @@ function Playlist({ username }) {
             setSelectedSongs(response.data)
       });
 
-        // // TODO add response songs to selectedSongs
-
-    }, [selectedSongs]);
+    }, []);
     const handleChange = (e) => {
         setInputValue(e.target.value);
     };
