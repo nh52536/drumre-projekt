@@ -35,7 +35,8 @@ function Playlist({username}) {
         }).then((response) => {
             console.log(response.data);
             setSelectedPlaylist(response.data)
-        });
+            setSelectedSongs(response.data)
+      });
 
         // // TODO add response songs to selectedSongs
 

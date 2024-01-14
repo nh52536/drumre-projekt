@@ -75,6 +75,8 @@ function GroupComponent() {
 
     return (
         <div>
+            {!seeEnter &&   <button onClick={() => {setSeePlaylist(false); setSeeEnter(true); setSeeCreateGroup(false);setWarning(false); setNoPlaylist(false)}}>CLOSE ALL NAD RETRUN TO CHOOSE A GROUP</button>}
+
             {seeEnter && <div> <input type="text"  value={playListName}
                                       onChange={handleInputChange} placeholder="Enter group name"/>
                 <div><input type="text" value={creator}
