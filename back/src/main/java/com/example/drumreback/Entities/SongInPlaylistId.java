@@ -27,7 +27,7 @@ public class SongInPlaylistId {
 
         if (this.playlistName.equals(songInPlaylistId.playlistName) &&
                 this.playlistCreator.equals(songInPlaylistId.playlistCreator) &&
-                this.songId == songInPlaylistId.songId) return true;
+                this.songId.equals(songInPlaylistId.songId)) return true;
 
         return false;
     }

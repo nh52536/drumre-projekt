@@ -130,11 +130,7 @@ function Playlist({username}) {
             setSelectedSongs(selectedSongs.filter((id) => id !== songId));
         }
         //  let response = axios.delete("http://localhost:8080/deleteFromPlaylist",{"song" : {"songId" : "", "authorId" : "","popularity": 3},"playlistId" : {"creatorUsername" : "", "playListName" : ""}  , "username" : "user1"})
-        let response = axios.delete("http://localhost:8080/deleteFromPlaylist", {
-            "username": "user1",
-            "playlistId": {"creatorUsername": "", "playListName": ""},
-            "songId": ""
-        })
+        let response = axios.post("http://localhost:8080/deleteFromPlaylist",{"username" : window.localStorage.getItem("email"), "playlistId" : {"creatorUsername" : window.localStorage.getItem("creatorUsername"), "playlistName" : window.localStorage.getItem("playlistName")}, "songId" : songId})
 
     }
 

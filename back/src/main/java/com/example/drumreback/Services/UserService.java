@@ -35,11 +35,13 @@ public class UserService {
     }
 
     public void addUserToPlaylist(User user, Playlist playlist) {
+
         if (playlist.getUsers().contains(user.getUsername())) return;
 
         playlist.getUsers().add(user.getUsername());
         user.getInPlaylists().add(playlist.getPlaylistId());
 
+        save(user);
         playlistService.savePlaylist(playlist);
     }
 

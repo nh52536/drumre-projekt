@@ -51,9 +51,6 @@ public class PlaylistController {
 
         if (optionalPlaylist.isPresent()) {
             userService.addUserToPlaylist(userService.findUserById(request.getUsername()).get(), playlistService.findPlaylistById(request.getPlaylistId()).get());
-            User user = userService.findUserById(request.getUsername()).get();
-            user.getInPlaylists().add(request.getPlaylistId());
-            userService.save(user);
 
             return new ResponseEntity<>(true, HttpStatus.OK);
         }
@@ -117,7 +114,9 @@ public class PlaylistController {
 
 
 
-    @DeleteMapping(path = "/deleteFromPlaylist")
+    @PostMapping(path = "/deleteFromPlaylist",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Boolean> deleteFromPlaylist(@RequestBody DeleteFromPlaylistRequest request) {
         SongInPlaylistId sipID = new SongInPlaylistId(request.getPlaylistId().getPlaylistName(), request.getPlaylistId().getCreatorUsername(), request.getSongId());
