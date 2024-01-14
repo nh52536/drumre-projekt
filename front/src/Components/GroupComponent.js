@@ -43,8 +43,6 @@ function GroupComponent() {
 
     async function createAGroup() {
         // TODO : axios call to backend to create a group, if a group is created setSeePlalyist to true, send a request with the name of the group and the email of the user
-        //get email from session stroage
-
         let response = await axios.post("http://localhost:8080/createPlaylist",{playlistName:groupName,username:window.localStorage.getItem("email")}, {
             headers: {
                 'Content-Type': 'application/json'

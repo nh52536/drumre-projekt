@@ -18,6 +18,8 @@ function Playlist({username}) {
     const [authorTrack, setAuthorTrack] = useState([]);
     const [displaySearch, setDisplaySearch] = useState(true);
     const [inputValue, setInputValue] = useState('');
+    const [authorId, setAuthorId] = useState("");
+    const [pop, setPop] = useState("");
     useEffect(() => {
 
          let response = axios.post("http://localhost:8080/likedSongs",{"username": window.localStorage.getItem("email"),"playlistId" : {"creatorUsername" : window.localStorage.getItem("creatorUsername"), "playlistName" : window.localStorage.getItem("playlistName")}}, { headers: {
@@ -94,6 +96,7 @@ function Playlist({username}) {
         if (!selectedSongs.includes(songId)) {
             setSelectedSongs([...selectedSongs, songId]);
         }
+
         let response = axios.post("http://localhost:8080/addToPlaylist",{"song" : {"songId" : songId, "author" : author,"popularity": popularity},"username" : window.localStorage.getItem("email"), "playlistId" : {"creatorUsername" : window.localStorage.getItem("creatorUsername"), "playlistName" : window.localStorage.getItem("playlistName")}}, {headers: { 'Content-Type': 'application/json'}})
     }
 
@@ -119,12 +122,12 @@ function Playlist({username}) {
                     <div className="track-name">{track.name}</div>
                     <div className="track-artist">{track.artists[0].name}
                         {!selectedSongs.includes(track.id) && (
-                            <button className="heart-button" onClick={() => addToSelectedSongs(track.id)}>
+                            <button className="heart-button" onClick={() => addToSelectedSongs(track.id,track.artists[0].id,track.popularity)}>
                                 ❤
                             </button>
                         )}
                         {selectedSongs.includes(track.id) && (
-                            <button className="heart-button" onClick={() => removeFromSelectedSongs(track.id)}>
+                            <button className="heart-button" onClick={() => removeFromSelectedSongs(track.id,track.artists[0].id,track.popularity)}>
                                 ❤️
                             </button>
                         )}
@@ -183,7 +186,8 @@ function Playlist({username}) {
             <div>{renderPlaylist()}</div>
             {selectedPlaylist !== null && (
                 <div>
-                    <h3>Tracks of {selectedPlaylist}</h3>
+
+
                     <div>{renderTracks()}</div>
                 </div>
             )}
@@ -209,7 +213,7 @@ function Playlist({username}) {
                  
                     {authorTrack !== null && (
                         <div>
-                            <h3>Tracks of {selectedPlaylist}</h3>
+
                             <div>{renderAuthorTracks()}</div>
                         </div>
                     )} </div>)}
