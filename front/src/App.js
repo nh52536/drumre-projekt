@@ -15,7 +15,8 @@ import GroupComponent from "./Components/GroupComponent";
 
 function App() {
 
-    const CLIENT_ID = '59097828c7c14767b30fdc16ede83d49'
+    // const CLIENT_ID = '59097828c7c14767b30fdc16ede83d49'
+    const CLIENT_ID = 'f2f2602f7a474bf789645a91e94452fc'
     const REDIRET_URI = 'http://localhost:3000/api/auth/callback/spotify'
     const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize'
     const RESPONSE_TYPE = 'token'
@@ -85,17 +86,21 @@ function App() {
             <header className="App-header">
                     {token && (
                         <GroupComponent></GroupComponent>
-
                     )}
-                <div className="user-info-box">
-
-                    <div className="upperPart">
+                <div>
                         {token ? (
-                            <button onClick={logOut}>Log out</button>
+                            <div className="user-info-box">
+                                <label>You are currently logged in Spotify</label>
+                                <button onClick={logOut}>Log out</button>
+                                </div>            
                         ) : (
-                            <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRET_URI}&response_type=${RESPONSE_TYPE}&scope=${encodeURIComponent(SCOPES)}`}>Login</a>
+                            <div className='login-form-container'>
+                                <form className="login-form">
+                                    Please login to Spotify
+                                    <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRET_URI}&response_type=${RESPONSE_TYPE}&scope=${encodeURIComponent(SCOPES)}`}>Login</a>
+                                </form>
+                            </div>
                         )}
-                    </div>
                 </div>
             </header>
         </div>

@@ -1,16 +1,39 @@
 /* App.css */
 
 body {
+  background-image: url(music.jpg);
+  /* background-repeat: round; */
+  background-size:100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-
-.App {
   text-align: center;
 }
 
+.App {
+  
+}
+.login-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  
+}
+.login-form {
+  border: 0px solid #ccc;
+  border-radius: 4px;
+  padding: 76px;
+  width: 300px;
+  background: url(Components/music2.jpg);
+  background-repeat: repeat-y;
+  background-size:100%;
+}
+
 .App-header {
-  background-color: #282c34;
+  /* background-color: #282c34; */
   min-height: 100vh;
   display: flex;
   flex-direction: column; /* Updated to column layout */
@@ -25,21 +48,22 @@ h1 {
 }
 
 a, button {
-  margin-top: 20px;
+  margin-top: 8px;
+  margin-bottom: 8px;
   padding: 10px 20px;
   font-size: 16px;
   font-weight: bold;
   color: #fff;
-  background-color: #1db954;
+  background-color: #243563;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   text-decoration: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 a:hover, button:hover {
-  background-color: #168e3a;
+  background-color: chocolate;
 }
 
 .login-button {
@@ -64,25 +88,27 @@ button[type="submit"] {
   font-size: 16px;
   font-weight: bold;
   color: #fff;
-  background-color: #1db954;
+  background-color: #243563;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 button[type="submit"]:hover {
-  background-color: #168e3a;
+  background-color: chocolate;
 }
 
 .user-info-box {
+  display: grid;
+  font-size: 16px;
   position: absolute;
   top: 10px;
   right: 10px;
   background-color: #282c30;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid #334b65;
+  border-radius: 4px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -92,28 +118,21 @@ button[type="submit"]:hover {
   font-size: 14px;
   font-weight: bold;
   color: #fff;
-  background-color: #1db954;
+  background-color: #243563;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
+
 .show-info-button:hover {
-  background-color: #168e3a;
+  background-color: chocolate;
 }
 .columns-both {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-}
-
-.upperPart {
-    /* add that the columns are in the middle of the page
-        and that they are next to each other
-     */
-
-
 }
 
 .naziv {
@@ -127,13 +146,14 @@ button[type="submit"]:hover {
   font-size: 16px;
   font-weight: bold;
   color: #fff;
-  background-color: #1db954;
-  border: none;
-  border-radius: 8px;
+  background-color: #243563;
+  border: 1px;
+  border-color: #334b65;
+  border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .get-favorites-button:hover {
-  background-color: #168e3a;
+  background-color: chocolate;
 }

@@ -1,6 +1,6 @@
 import { collection, doc, setDoc } from "firebase/firestore";
 import handleSubmit from "./handleSubmit";
-import {db} from "../firebase";
+import {db} from "../../src/firebase";
 
 
 const handleMsg = async (testdata) => {

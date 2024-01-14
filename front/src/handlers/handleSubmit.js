@@ -1,5 +1,5 @@
 import { addDoc, collection } from "@firebase/firestore"
-import { db } from "../firebase"
+import { db } from "../../src/firebase"
 import {doc, setDoc} from "firebase/firestore";
 
 const handleSubmit = async (username,name,type) => {
