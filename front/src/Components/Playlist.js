@@ -201,6 +201,22 @@ function Playlist({username}) {
 
     }
 
+
+    const createCustomPlayist = async (e) => {
+        e.preventDefault();
+        let response = axios.post("http://localhost:8080/createCustomPlaylist", {
+            "token": window.localStorage.getItem("token"),
+            "playlistId": {
+                "creatorUsername": window.localStorage.getItem("creatorUsername"),
+                "playlistName": window.localStorage.getItem("playlistName")
+            }
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+    };
+
     return (
         <div className="playlist-container">
             {!displayPlay && (
@@ -248,7 +264,7 @@ function Playlist({username}) {
                     )} </div>)}
 
             {window.localStorage.getItem("creatorUsername") === window.localStorage.getItem("email") &&
-                <div><button>CREATE FINAL PLAYLIST FOR : {window.localStorage.getItem("playlistName")}</button></div>}
+                <div><button onCLick={createCustomPlayist}>CREATE FINAL PLAYLIST FOR : {window.localStorage.getItem("playlistName")}</button></div>}
 
 
         </div>
