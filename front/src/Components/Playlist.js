@@ -209,7 +209,8 @@ function Playlist({username}) {
             "playlistId": {
                 "creatorUsername": window.localStorage.getItem("creatorUsername"),
                 "playlistName": window.localStorage.getItem("playlistName")
-            }
+            },
+            "id" : window.localStorage.getItem("username_id")
         }, {
             headers: {
                 'Content-Type': 'application/json'

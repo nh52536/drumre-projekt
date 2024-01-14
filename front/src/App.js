@@ -39,13 +39,15 @@ function App() {
                 }
             })
                 .then(response => {
+                    console.log(response.data)
                     const username = response.data.display_name || response.data.id;
                     if (response.data.email) {
                         const email = response.data.email;
-
+                        let id = response.data.id;
                         const type = response.data.product;
                         //console.log("Email:", email);
                         window.localStorage.setItem("email", email)
+                        window.localStorage.setItem("username_id", id)
                     } else {
                         console.log("Email not available");
                     }
