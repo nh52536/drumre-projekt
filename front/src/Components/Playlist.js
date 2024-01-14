@@ -14,16 +14,32 @@ function Playlist({ username }) {
     const [displayPlay, setDisplay] = useState(true);
     const [selectedArtistInfo, setSelectedArtistInfo] = useState(null);
     const [showArtistInfo, setShowArtistInfo] = useState(false);
-    const [isLiked, setIsLiked] = useState(true);
-    const [trackNameLiked, setTrackNameLiked] = useState([]);
     const [selectedSongs, setSelectedSongs] = useState([]);
     const [authorTrack, setAuthorTrack] = useState([]);
     const [displaySearch, setDisplaySearch] = useState(true);
     const [inputValue, setInputValue] = useState('');
-    const [displayX, setDisplayX] = useState(true);
+    const [authorId, setAuthorId] = useState("");
+    const [pop, setPop] = useState("");
     useEffect(() => {
-        // TODO: call an axios message to get all the songs from the database for the user logged in
-        console.log(selectedSongs)
+
+        let response = axios.post("http://localhost:8080/likedSongs", {
+            "username": window.localStorage.getItem("email"),
+            "playlistId": {
+                "creatorUsername": window.localStorage.getItem("creatorUsername"),
+                "playlistName": window.localStorage.getItem("playlistName")
+            }
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            console.log(response.data);
+            setSelectedPlaylist(response.data)
+            setSelectedSongs(response.data)
+      });
+
+        // // TODO add response songs to selectedSongs
+
     }, [selectedSongs]);
     const handleChange = (e) => {
         setInputValue(e.target.value);
@@ -58,10 +74,6 @@ function Playlist({ username }) {
     };
 
 
-    const deleteFrom = async (trackName) => {
-        console.log("trackName", trackName + "email", email)
-        await deleteDoc(doc(db, email, trackName.toString()));
-    }
     const renderTracks = () => {
         return playlistTracks.map((track) => (
             <div key={track.track.id} className="track-item">
@@ -71,16 +83,19 @@ function Playlist({ username }) {
                     className="track-image"
                 />
                 <div className="track-info">
+                    <div className="track-popul">{track.track.popularity}</div>
                     <div className="track-name">{track.track.name}</div>
                     <div className="track-artist">
                         Artist: {track.track.artists[0].name}
                         {!selectedSongs.includes(track.track.id) && (
-                            <button className="heart-button" onClick={() => addToSelectedSongs(track.track.id)}>
+                            <button className="heart-button"
+                                    onClick={() => addToSelectedSongs(track.track.id, track.track.artists[0].id, track.track.popularity)}>
                                 ❤
                             </button>
                         )}
                         {selectedSongs.includes(track.track.id) && (
-                            <button className="heart-button" onClick={() => removeFromSelectedSongs(track.track.id)}>
+                            <button className="heart-button"
+                                    onClick={() => removeFromSelectedSongs(track.track.id, track.track.artists[0].id, track.track.popularity)}>
                                 ❤️
                             </button>
                         )}
@@ -90,11 +105,23 @@ function Playlist({ username }) {
         ));
     };
 
-    function addToSelectedSongs(songId) {
-        //TODO : call an axios message to save to database
+    function addToSelectedSongs(songId, author, popularity) {
         if (!selectedSongs.includes(songId)) {
             setSelectedSongs([...selectedSongs, songId]);
         }
+
+        let response = axios.post("http://localhost:8080/addToPlaylist", {
+            "song": {
+                "songId": songId,
+                "author": author,
+                "popularity": popularity
+            },
+            "username": window.localStorage.getItem("email"),
+            "playlistId": {
+                "creatorUsername": window.localStorage.getItem("creatorUsername"),
+                "playlistName": window.localStorage.getItem("playlistName")
+            }
+        }, {headers: {'Content-Type': 'application/json'}})
     }
 
     function removeFromSelectedSongs(songId) {
@@ -102,6 +129,8 @@ function Playlist({ username }) {
         if (selectedSongs.includes(songId)) {
             setSelectedSongs(selectedSongs.filter((id) => id !== songId));
         }
+        //  let response = axios.delete("http://localhost:8080/deleteFromPlaylist",{"song" : {"songId" : "", "authorId" : "","popularity": 3},"playlistId" : {"creatorUsername" : "", "playListName" : ""}  , "username" : "user1"})
+        let response = axios.post("http://localhost:8080/deleteFromPlaylist",{"username" : window.localStorage.getItem("email"), "playlistId" : {"creatorUsername" : window.localStorage.getItem("creatorUsername"), "playlistName" : window.localStorage.getItem("playlistName")}, "songId" : songId})
 
     }
 
@@ -118,12 +147,14 @@ function Playlist({ username }) {
                     <div className="track-artist">
                     Artist: {track.artists[0].name}
                         {!selectedSongs.includes(track.id) && (
-                            <button className="heart-button" onClick={() => addToSelectedSongs(track.id)}>
+                            <button className="heart-button"
+                                    onClick={() => addToSelectedSongs(track.id, track.artists[0].id, track.popularity)}>
                                 ❤
                             </button>
                         )}
                         {selectedSongs.includes(track.id) && (
-                            <button className="heart-button" onClick={() => removeFromSelectedSongs(track.id)}>
+                            <button className="heart-button"
+                                    onClick={() => removeFromSelectedSongs(track.id, track.artists[0].id, track.popularity)}>
                                 ❤️
                             </button>
                         )}
@@ -133,17 +164,6 @@ function Playlist({ username }) {
         ));
     };
 
-    const learnMoreAboutArtist = async (artistName) => {
-        //     try {
-        //         const {data} = await axios.get(
-        //             `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&api_key=0c3b96177c530815fc64df2a5bc3bfd1&artist=${artistName}&format=json`
-        //         );
-        //         setSelectedArtistInfo(data.artist);
-        //         setShowArtistInfo(true); // Set the state to true when "Learn More" is clicked
-        //     } catch (error) {
-        //         console.error("Error fetching artist information:", error);
-        //     }
-    };
 
     const getPlaylist = async (e) => {
         e.preventDefault();
@@ -182,6 +202,23 @@ function Playlist({ username }) {
 
     }
 
+
+    const createCustomPlayist = async (e) => {
+        e.preventDefault();
+        let response = axios.post("http://localhost:8080/createCustomPlaylist", {
+            "token": window.localStorage.getItem("token"),
+            "playlistId": {
+                "creatorUsername": window.localStorage.getItem("creatorUsername"),
+                "playlistName": window.localStorage.getItem("playlistName")
+            },
+            "id" : window.localStorage.getItem("username_id")
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+    };
+
     return (
         <div className="playlist-container">
             <div>{renderPlaylist()}</div>
@@ -192,7 +229,8 @@ function Playlist({ username }) {
             )}
             {selectedPlaylist !== null && (
                 <div>
-                    <h3>Tracks of {selectedPlaylist}</h3>
+
+
                     <div>{renderTracks()}</div>
                 </div>
             )}
@@ -212,19 +250,30 @@ function Playlist({ username }) {
                         onChange={handleChange}
                         placeholder="Type something..."
                     />
+
                     <button style={{marginLeft: '70px', marginRight: '70px', marginTop: '10px', marginBottom: '0px'}}
                         disabled={inputValue.length == 0} 
                         onClick={getSongsFromArtist}>
-                            Search by artists
+                            Search 
                     </button>
-                    {authorTrack && authorTrack.length > 0 && (
+                    <button style={{marginLeft: '70px', marginRight: '70px', marginTop: '10px', marginBottom: '0px'}}
+                        onClick={() => {
+                        setAuthorTrack(null);}}
+                        >
+                            X 
+                    </button>
+                    {authorTrack != null  && (
                         <div >
-                            <h3>Found these artist tracks</h3>
+                            <h3>Found these tracks</h3>
                             <div>{renderAuthorTracks()}</div>
                         </div>
                     )} 
+                        {window.localStorage.getItem("creatorUsername") === window.localStorage.getItem("email") &&
+                <div><button style={{marginLeft: '70px', marginRight: '70px', marginTop: '10px', marginBottom: '0px'}} onCLick={createCustomPlayist}>CREATE FINAL PLAYLIST FOR : {window.localStorage.getItem("playlistName")}</button></div>}
+
                 </div>
             )}
+
         </div>
     );
 }
