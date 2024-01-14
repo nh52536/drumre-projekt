@@ -25,5 +25,15 @@ public class SongInPlaylistService {
         songInPlaylistRepository.save(sip);
     }
 
-    public void delete(SongInPlaylist sip) { songInPlaylistRepository.deleteById(sip.getSongInPlaylistId()  );}
+    public void delete(SongInPlaylist sip) {
+        Optional<SongInPlaylist> osip = songInPlaylistRepository.findById(sip.getSongInPlaylistId());
+        if (osip.isPresent()) {
+            songInPlaylistRepository.deleteById(sip.getSongInPlaylistId());
+            System.out.println("Uspio sam izbrisati !!!");
+        }
+        else {
+            System.out.println("Nisam uspio izbrisati!!!");
+        }
+
+    }
 }

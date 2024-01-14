@@ -123,17 +123,25 @@ public class PlaylistController {
         SongInPlaylistId sipID = new SongInPlaylistId(request.getPlaylistId().getPlaylistName(), request.getPlaylistId().getCreatorUsername(), request.getSongId());
         SongInPlaylist sip = songInPlaylistService.getSongInPlaylist(sipID).get();
         PlaylistId pID = request.getPlaylistId();
-        Playlist playlist = playlistService.findPlaylistById(pID).get();
+        Playlist playlist = null;
+        if (playlistService.findPlaylistById(pID).isPresent())
+            playlist = playlistService.findPlaylistById(pID).get();
 
         sip.getAddedBy().remove(request.getUsername());
 
         if (sip.getAddedBy().isEmpty()) {
-            playlist.getSongs().remove(sip);
+            if (playlist != null) {
+                for (SongInPlaylist x : playlist.getSongs())
+                    if (x.getSongInPlaylistId().equals(sip.getSongInPlaylistId())) {
+                        playlist.getSongs().remove(x);
+                        break;
+                    }
+            }
             songInPlaylistService.delete(sip);
         }
-
-        songInPlaylistService.save(sip);
-        playlistService.savePlaylist(playlist);
+        else
+            songInPlaylistService.save(sip);
+        if (playlist != null) playlistService.savePlaylist(playlist);
 
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
