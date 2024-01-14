@@ -19,7 +19,7 @@ function App() {
     const REDIRET_URI = 'http://localhost:3000/api/auth/callback/spotify'
     const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize'
     const RESPONSE_TYPE = 'token'
-    const SCOPES = 'user-read-private user-read-email'; // Include 'user-read-email' scope
+    const SCOPES = 'user-read-private user-read-email playlist-modify-public'; // Include 'user-read-email' scope
     const [token, setToken] = useState("")
 
 
