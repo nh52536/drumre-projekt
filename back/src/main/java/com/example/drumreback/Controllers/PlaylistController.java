@@ -154,6 +154,11 @@ public class PlaylistController {
     public ResponseEntity<Boolean> deletePlaylist(@RequestBody PlaylistId request) {
         playlistService.delete(request);
 
+        User user = userService.findUserById(request.getCreatorUsername()).get();
+        user.getCreatedPlaylistsNames().remove(request.getPlaylistName());
+        user.getInPlaylists().remove(request);
+        userService.save(user);
+
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }

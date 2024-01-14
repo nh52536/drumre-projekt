@@ -52,8 +52,8 @@ function GroupComponent() {
        if(response.data == true) {
            setWarning(false)
            console.log(creator + playListName)
-           window.localStorage.setItem("creatorUsername", creator)
-           window.localStorage.setItem("playlistName", playListName)
+           window.localStorage.setItem("creatorUsername", window.localStorage.getItem("email"))
+           window.localStorage.setItem("playlistName", groupName)
            setSeePlaylist(true)
            setSeeCreateGroup(false)
        }else if (response.data == false) {
