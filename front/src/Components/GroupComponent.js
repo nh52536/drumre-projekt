@@ -15,6 +15,7 @@ function GroupComponent() {
     const [seeEnter, setSeeEnter] = useState(true)
     const [groupName, setGroupName] = useState("")
     const [warning, setWarning] = useState(false)
+    const [noPlaylist, setNoPlaylist] = useState(false)
     async function enterAGroup() {
         //TODO : axios call to backend to see if group exists, if a group exists setSeePlalyist to true
         let response = await axios.post("http://localhost:8080/join", {
@@ -26,19 +27,17 @@ function GroupComponent() {
             }
         });
 
-
         if (response.data == true) {
             setSeePlaylist(true)
             window.localStorage.setItem("creatorUsername", creator)
             window.localStorage.setItem("playlistName", playListName)
-            //setSeeCreateGroup(false)
-
+            setNoPlaylist(false)
+            setSeeEnter(false)
+            setSeePlaylist(true)
         } else {
-            setSeePlaylist(false)
-            // setSeeCreateGroup(true)
+            setNoPlaylist(true)
         }
-        setSeeEnter(false)
-        setSeePlaylist(true)
+
     }
 
     async function createAGroup() {
@@ -83,6 +82,7 @@ function GroupComponent() {
                 <button onClick={enterAGroup}>Enter a group</button>
             <button onClick={() => {setSeeCreateGroup(true); setSeeEnter(false)}}>I WANT TO CREATE A PLAYLIST </button></div>}
             {seePlaylist && <Playlist/>}
+            {noPlaylist && <div>NO SUCH PLAYLIST EXISTS</div>}
 
             {seeCreateGroup && <div><input type="text"  value={groupName}
                                            onChange={handleInputChange3} placeholder="Enter group name you want to create"/><button onClick={createAGroup}>CREATE A GROUP</button>
