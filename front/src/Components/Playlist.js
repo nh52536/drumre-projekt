@@ -1,12 +1,12 @@
 // Playlist.js
 
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import "./Playlist.css";
-import {doc, setDoc, deleteDoc} from "firebase/firestore";
-import {db} from "../firebase";
+import { doc, setDoc, deleteDoc } from "firebase/firestore";
+import { db } from "../../src/firebase";
 
-function Playlist({username}) {
+function Playlist({ username }) {
     const [playlistItems, setPlaylistItems] = useState([]);
     const [playlist, setPlaylist] = useState(false);
     const [playlistTracks, setPlaylistTracks] = useState([]);
@@ -61,7 +61,7 @@ function Playlist({username}) {
 
     const getTracks = async (playlistId) => {
         let token = window.localStorage.getItem("token");
-        const {data} = await axios.get(
+        const { data } = await axios.get(
             `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
             {
                 headers: {
@@ -144,7 +144,8 @@ function Playlist({username}) {
                 />
                 <div className="track-info">
                     <div className="track-name">{track.name}</div>
-                    <div className="track-artist">{track.artists[0].name}
+                    <div className="track-artist">
+                    Artist: {track.artists[0].name}
                         {!selectedSongs.includes(track.id) && (
                             <button className="heart-button"
                                     onClick={() => addToSelectedSongs(track.id, track.artists[0].id, track.popularity)}>
@@ -167,7 +168,7 @@ function Playlist({username}) {
     const getPlaylist = async (e) => {
         e.preventDefault();
         let token = window.localStorage.getItem("token");
-        const {data} = await axios.get("https://api.spotify.com/v1/me/playlists", {
+        const { data } = await axios.get("https://api.spotify.com/v1/me/playlists", {
             headers: {
                 Authorization: "Bearer " + token,
             },
@@ -180,7 +181,7 @@ function Playlist({username}) {
     const getSongsFromArtist = async (e) => {
         e.preventDefault();
         let token = window.localStorage.getItem("token");
-        const {data} = await axios.get("https://api.spotify.com/v1/search?type=track&q=" + inputValue + "&limit=50", {
+        const { data } = await axios.get("https://api.spotify.com/v1/search?type=track&q=" + inputValue + "&limit=50", {
             headers: {
                 Authorization: "Bearer " + token,
             }
@@ -220,12 +221,12 @@ function Playlist({username}) {
 
     return (
         <div className="playlist-container">
-            {!displayPlay && (
+            <div>{renderPlaylist()}</div>
+            {selectedPlaylist !== null && (
                 <button className="get-playlist-button-close" onClick={closeAll}>
-                    X
+                    Close playlist & playlist items
                 </button>
             )}
-            <div>{renderPlaylist()}</div>
             {selectedPlaylist !== null && (
                 <div>
 
@@ -234,39 +235,44 @@ function Playlist({username}) {
                 </div>
             )}
             {displayPlay && (
-                <button className="get-playlist-button" onClick={getPlaylist}>
-                    GET YOUR PLAYLIST FROM SPOTIFY
+                <button style={{marginLeft: '70px', marginRight: '70px', marginTop: '10px', marginBottom: '0px'}} onClick={getPlaylist}>
+                    Get your playlists from Spotify
                 </button>
             )}
-
+          <hr className="double-line" />
             {displaySearch && (
-
-                <div>
-
-                    <label htmlFor="textInput">Enter Text:</label>
-                    <input
+                <div className="searchBox">    
+                    <label htmlFor="textInput">Search artists on Spotify by name</label>
+                    <input style={{marginLeft: '70px', marginRight: '70px', marginTop: '10px', marginBottom: '0px'}}
                         type="text"
                         id="textInput"
                         value={inputValue}
                         onChange={handleChange}
                         placeholder="Type something..."
                     />
-                    <button disabled={inputValue.length == 0} onClick={getSongsFromArtist}>SEARCH</button>
-                    <button className="get-playlist-button-close" onClick={() => {
-                        setAuthorTrack(null);
-                    }}>
-                        X
-                    </button>
-                    {authorTrack !== null && (
-                        <div>
 
+                    <button style={{marginLeft: '70px', marginRight: '70px', marginTop: '10px', marginBottom: '0px'}}
+                        disabled={inputValue.length == 0} 
+                        onClick={getSongsFromArtist}>
+                            Search 
+                    </button>
+                    <button style={{marginLeft: '70px', marginRight: '70px', marginTop: '10px', marginBottom: '0px'}}
+                        onClick={() => {
+                        setAuthorTrack(null);}}
+                        >
+                            X 
+                    </button>
+                    {authorTrack != null  && (
+                        <div >
+                            <h3>Found these tracks</h3>
                             <div>{renderAuthorTracks()}</div>
                         </div>
-                    )} </div>)}
+                    )} 
+                        {window.localStorage.getItem("creatorUsername") === window.localStorage.getItem("email") &&
+                <div><button style={{marginLeft: '70px', marginRight: '70px', marginTop: '10px', marginBottom: '0px'}} onCLick={createCustomPlayist}>CREATE FINAL PLAYLIST FOR : {window.localStorage.getItem("playlistName")}</button></div>}
 
-            {window.localStorage.getItem("creatorUsername") === window.localStorage.getItem("email") &&
-                <div><button onCLick={createCustomPlayist}>CREATE FINAL PLAYLIST FOR : {window.localStorage.getItem("playlistName")}</button></div>}
-
+                </div>
+            )}
 
         </div>
     );

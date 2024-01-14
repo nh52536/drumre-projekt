@@ -74,24 +74,37 @@ function GroupComponent() {
 
 
     return (
-        <div>
-            {!seeEnter &&   <button onClick={() => {setSeePlaylist(false); setSeeEnter(true); setSeeCreateGroup(false);setWarning(false); setNoPlaylist(false)}}>CLOSE ALL NAD RETRUN TO CHOOSE A GROUP</button>}
 
-            {seeEnter && <div> <input type="text"  value={playListName}
-                                      onChange={handleInputChange} placeholder="Enter group name"/>
-                <div><input type="text" value={creator}
+        <div >
+          {!seeEnter && <button  onClick={() => {setSeePlaylist(false); setSeeEnter(true); setSeeCreateGroup(false);setWarning(false); setNoPlaylist(false)}}>CLOSE ALL NAD RETRUN TO CHOOSE A GROUP</button>}
+
+            {seeEnter && 
+            <div className="group-container"> 
+                Enter name of group to access group
+                <hr className="double-line" />
+                <input type="text"  value={playListName}
+                   onChange={handleInputChange} placeholder="Enter group name"/>
+                <input type="text" value={creator}
                             onChange={handleInputChange2} placeholder="Enter a creator"/></div>
                 <button onClick={enterAGroup}>Enter a group</button>
-            <button onClick={() => {setSeeCreateGroup(true); setSeeEnter(false)}}>I WANT TO CREATE A PLAYLIST </button></div>}
-            {seePlaylist && <Playlist/>}
-            {noPlaylist && <div>NO SUCH PLAYLIST EXISTS</div>}
-
-            {seeCreateGroup && <div><input type="text"  value={groupName}
-                                           onChange={handleInputChange3} placeholder="Enter group name you want to create"/><button onClick={createAGroup}>CREATE A GROUP</button>
-                {warning && <div>A PLAYLIST WITH THAT NAME ALREADY EXISTS </div>}</div>
+             <button onClick={() => {setSeeCreateGroup(true); setSeeEnter(false)}}>Create a playlist </button></div>}
+            </div>}
+            <div>
+                {seePlaylist && <Playlist/>}
+          {noPlaylist && <div>NO SUCH PLAYLIST EXISTS</div>}
+            </div>
+            {seeCreateGroup && 
+            <div className="group-container">
+                Enter name of group to create group
+                <hr className="double-line" />
+                <input type="text"   value={groupName}
+                                           onChange={handleInputChange3}  placeholder="Enter group name you want to create"/>
+                <button onClick={createAGroup}>Create a group</button>  {warning && <div>A PLAYLIST WITH THAT NAME ALREADY EXISTS </div>}
+                </div>
 
             }
         </div>
+
 )
 ;
 }
