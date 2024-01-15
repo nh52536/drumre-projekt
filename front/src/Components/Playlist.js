@@ -21,8 +21,10 @@ function Playlist({ username }) {
     const [authorId, setAuthorId] = useState("");
     const [pop, setPop] = useState("");
     const [selectedGenres, setSelectedGenres] = useState([]);
-    const genres = [
-        'Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Mystery', 'Sci-Fi', 'Thriller'
+    const [recommendedSongs, setRecommendedSongs] = useState([]);
+    const genres = ["acoustic", "alt-rock", "alternative", "blues", "bossanova", "classical", "country", "dance", "disco", "dubstep",
+        "edm", "electronic", "folk", "funk", "grunge", "hard-rock", "heavy-metal", "hip-hop", "house", "indie", "jazz", "k-pop", "latino",
+        "metal", "pop", "punk", "r-n-b", "reggae", "reggaeton", "rock", "rock-n-roll", "sertanejo", "ska", "soul", "synth-pop", "techno", "trance",
     ];
     useEffect(() => {
         axios.post("http://localhost:8080/likedSongs", {
@@ -126,14 +128,20 @@ function Playlist({ username }) {
     const handleInputChange = (event, key) => {
         const value = parseInt(event.target.value, 10);
 
+        /*
         // Ensure that the max value is always greater than the min value
         if (key === 'min' && value > rangeValues.max) {
             setRangeValues({ min: value, max: value });
         } else if (key === 'max' && value < rangeValues.min) {
             setRangeValues({ min: value, max: value });
         } else {
-            setRangeValues({ ...rangeValues, [key]: value });
+         */
+        if (isNaN(value)) {
+            if (key === 'min') setRangeValues({ ...rangeValues, [key]:  1});
+            else setRangeValues({ ...rangeValues, [key]:  100});
         }
+        else setRangeValues({ ...rangeValues, [key]: value });
+        //}
     };
 
     function addToSelectedSongs(songId, author, popularity) {
@@ -233,19 +241,32 @@ function Playlist({ username }) {
 
     }
 
-const getTrackesBasedOnGenreAndAll = async (e) => {
+    const getTrackesBasedOnGenreAndAll = async (e) => {
+        e.preventDefault();
+        console.log("Usao u funkciju");
         let token = window.localStorage.getItem("token");
         let genres = selectedGenres.join(",");
         let min = rangeValues.min;
         let max = rangeValues.max;
-        const { data } = await axios.get("https://api.spotify.com/v1/recommendations?limit=50&market=US&seed_genres=" + genres + "&min_popularity=" + min + "&max_popularity=" + max, {
+        axios.post("http://localhost:8080/recommendSongs",
+            {
+                    "token" : token,
+                    "genres" : selectedGenres,
+                    "min_popularity" : rangeValues.min,
+                    "max_popularity" : rangeValues.max
+                },
+            {
             headers: {
                 Authorization: "Bearer " + token,
             }
+        }).then((response) => {
+            setRecommendedSongs(response)
+            console.log(response);
+            //setAuthorTrack(data.tracks);
         });
-        console.log(data.tracks);
-        setAuthorTrack(data.tracks);
     };
+
+
     const createCustomPlayist = async (e) => {
         e.preventDefault();
         let response = axios.post("http://localhost:8080/createCustomPlaylist", {
@@ -326,7 +347,7 @@ const getTrackesBasedOnGenreAndAll = async (e) => {
                         Selected range: {rangeValues.min} - {rangeValues.max}
                     </p>
                 </div>
-                <button onClick={() => getTrackesBasedOnGenreAndAll}></button>
+                <button onClick={getTrackesBasedOnGenreAndAll}></button>
             </div>
             <hr className="double-line" />
             {displaySearch && (
