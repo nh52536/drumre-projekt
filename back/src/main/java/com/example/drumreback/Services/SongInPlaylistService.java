@@ -42,7 +42,7 @@ public class SongInPlaylistService {
         }
     }
 
-    public List<String> recommendSongs(String token, String[] genres, int min_popularity, int max_popularity) throws URISyntaxException, JsonProcessingException {
+    public String recommendSongs(String token, String[] genres, int min_popularity, int max_popularity) throws URISyntaxException, JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -67,14 +67,6 @@ public class SongInPlaylistService {
 
         System.out.println(response);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode responseJson = objectMapper.readTree(response.getBody());
-
-        List<String> recommendedSongs = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            recommendedSongs.add(responseJson.path("tracks").get(i).path("id").asText());
-            System.out.println(responseJson.path("tracks").get(i).path("id").asText());
-        }
-        return recommendedSongs;
+        return response.getBody();
     }
 }

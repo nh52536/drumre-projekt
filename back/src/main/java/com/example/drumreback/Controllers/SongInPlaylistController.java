@@ -3,6 +3,7 @@ package com.example.drumreback.Controllers;
 import com.example.drumreback.RequestBodies.RecommendSongsRequest;
 import com.example.drumreback.Services.SongInPlaylistService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,8 +32,8 @@ public class SongInPlaylistController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<List<String>> recommendSongs(@RequestBody RecommendSongsRequest request) throws URISyntaxException, JsonProcessingException {
-        List<String> recommendedSongs = songInPlaylistService.recommendSongs(request.getToken(), request.getGenres(), request.getMin_popularity(), request.getMax_popularity());
+    public ResponseEntity<String> recommendSongs(@RequestBody RecommendSongsRequest request) throws URISyntaxException, JsonProcessingException {
+        String recommendedSongs = songInPlaylistService.recommendSongs(request.getToken(), request.getGenres(), request.getMin_popularity(), request.getMax_popularity());
 
         return new ResponseEntity<>(recommendedSongs, HttpStatus.OK);
     }

@@ -243,27 +243,17 @@ function Playlist({ username }) {
 
     const getTrackesBasedOnGenreAndAll = async (e) => {
         e.preventDefault();
-        console.log("Usao u funkciju");
         let token = window.localStorage.getItem("token");
         let genres = selectedGenres.join(",");
         let min = rangeValues.min;
         let max = rangeValues.max;
-        axios.post("http://localhost:8080/recommendSongs",
-            {
-                    "token" : token,
-                    "genres" : selectedGenres,
-                    "min_popularity" : rangeValues.min,
-                    "max_popularity" : rangeValues.max
-                },
-            {
+        const { data } = await axios.get("https://api.spotify.com/v1/recommendations?limit=50&market=US&seed_genres=" + genres + "&min_popularity=" + min + "&max_popularity=" + max, {
             headers: {
                 Authorization: "Bearer " + token,
             }
-        }).then((response) => {
-            setRecommendedSongs(response)
-            console.log(response);
-            //setAuthorTrack(data.tracks);
         });
+        console.log(data.tracks);
+        setAuthorTrack(data.tracks);
     };
 
 
