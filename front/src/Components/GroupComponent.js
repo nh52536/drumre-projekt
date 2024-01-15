@@ -16,6 +16,7 @@ function GroupComponent() {
     const [groupName, setGroupName] = useState("")
     const [warning, setWarning] = useState(false)
     const [noPlaylist, setNoPlaylist] = useState(false)
+    const [href, setHref] = useState("")
 
     async function enterAGroup() {
         //TODO : axios call to backend to see if group exists, if a group exists setSeePlalyist to true
@@ -27,6 +28,7 @@ function GroupComponent() {
                 'Content-Type': 'application/json'
             }
         });
+
 
         if (response.data == true) {
             setSeePlaylist(true)

@@ -20,6 +20,10 @@ function Playlist({ username }) {
     const [inputValue, setInputValue] = useState('');
     const [authorId, setAuthorId] = useState("");
     const [pop, setPop] = useState("");
+    const [selectedGenres, setSelectedGenres] = useState([]);
+    const genres = [
+        'Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Mystery', 'Sci-Fi', 'Thriller'
+    ];
     useEffect(() => {
         axios.post("http://localhost:8080/likedSongs", {
             "username": window.localStorage.getItem("email"),
@@ -38,6 +42,14 @@ function Playlist({ username }) {
       });
 
     }, []);
+    const [selectedOption, setSelectedOption] = useState(null);
+    const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+    const [rangeValues, setRangeValues] = useState({ min: 1, max: 100 });
+
+    const handleSelect = (event) => {
+        setSelectedOption(event.target.value);
+    };
+
     const handleChange = (e) => {
         setInputValue(e.target.value);
     };
@@ -55,6 +67,16 @@ function Playlist({ username }) {
             </div>
         ));
     };
+
+    const handleCheckboxChange = (genre) => {
+        if (selectedGenres.includes(genre)) {
+            setSelectedGenres(selectedGenres.filter(item => item !== genre));
+        } else {
+            setSelectedGenres([...selectedGenres, genre]);
+        }
+    };
+
+
 
     const getTracks = async (playlistId) => {
         let token = window.localStorage.getItem("token");
@@ -100,6 +122,18 @@ function Playlist({ username }) {
                 </div>
             </div>
         ));
+    };
+    const handleInputChange = (event, key) => {
+        const value = parseInt(event.target.value, 10);
+
+        // Ensure that the max value is always greater than the min value
+        if (key === 'min' && value > rangeValues.max) {
+            setRangeValues({ min: value, max: value });
+        } else if (key === 'max' && value < rangeValues.min) {
+            setRangeValues({ min: value, max: value });
+        } else {
+            setRangeValues({ ...rangeValues, [key]: value });
+        }
     };
 
     function addToSelectedSongs(songId, author, popularity) {
@@ -199,7 +233,20 @@ function Playlist({ username }) {
 
     }
 
-
+const getTrackesBasedOnGenreAndAll = async (e) => {
+        e.preventDefault();
+        let token = window.localStorage.getItem("token");
+        let genres = selectedGenres.join(",");
+        let min = rangeValues.min;
+        let max = rangeValues.max;
+        const { data } = await axios.get("https://api.spotify.com/v1/recommendations?limit=50&market=US&seed_genres=" + genres + "&min_popularity=" + min + "&max_popularity=" + max, {
+            headers: {
+                Authorization: "Bearer " + token,
+            }
+        });
+        console.log(data.tracks);
+        setAuthorTrack(data.tracks);
+    };
     const createCustomPlayist = async (e) => {
         e.preventDefault();
         let response = axios.post("http://localhost:8080/createCustomPlaylist", {
@@ -237,8 +284,54 @@ function Playlist({ username }) {
                 </button>
             )}
           <hr className="double-line" />
+            <div>   <div>
+                <label>Select genres:</label>
+                <div>
+                    {genres.map((genre, index) => (
+                        <div key={index}>
+                            <input
+                                type="checkbox"
+                                id={genre}
+                                value={genre}
+                                checked={selectedGenres.includes(genre)}
+                                onChange={() => handleCheckboxChange(genre)}
+                            />
+                            <label htmlFor={genre}>{genre}</label>
+                        </div>
+                    ))}
+                </div>
+                <p>Selected genres: {selectedGenres.join(', ')}</p>
+            </div>
+                <div>
+                    <label htmlFor="min-input">Min:</label>
+                    <input
+                        type="number"
+                        id="min-input"
+                        min="1"
+                        max="100"
+                        value={rangeValues.min}
+                        onChange={(e) => handleInputChange(e, 'min')}
+                    />
+
+                    <label htmlFor="max-input">Max:</label>
+                    <input
+                        type="number"
+                        id="max-input"
+                        min="1"
+                        max="100"
+                        value={rangeValues.max}
+                        onChange={(e) => handleInputChange(e, 'max')}
+                    />
+
+                    <p>
+                        Selected range: {rangeValues.min} - {rangeValues.max}
+                    </p>
+                </div>
+                <button onClick={getTrackesBasedOnGenreAndAll()}></button>
+            </div>
+            <hr className="double-line" />
             {displaySearch && (
-                <div className="searchBox">    
+                <div className="searchBox">
                     <label htmlFor="textInput">Search artists on Spotify by name</label>
                     <input style={{marginLeft: '70px', marginRight: '70px', marginTop: '10px', marginBottom: '0px'}}
                         type="text"
@@ -249,22 +342,22 @@ function Playlist({ username }) {
                     />
 
                     <button style={{marginLeft: '70px', marginRight: '70px', marginTop: '10px', marginBottom: '0px'}}
-                        disabled={inputValue.length == 0} 
+                        disabled={inputValue.length === 0}
                         onClick={getSongsFromArtist}>
-                            Search 
+                            Search
                     </button>
                     <button style={{marginLeft: '70px', marginRight: '70px', marginTop: '10px', marginBottom: '0px'}}
                         onClick={() => {
                         setAuthorTrack(null);}}
                         >
-                            X 
+                            X
                     </button>
                     {authorTrack != null  && (
                         <div >
                             <h3>Found these tracks</h3>
                             <div>{renderAuthorTracks()}</div>
                         </div>
-                    )} 
+                    )}
                         {window.localStorage.getItem("creatorUsername") === window.localStorage.getItem("email") &&
                 <div><button style={{marginLeft: '70px', marginRight: '70px', marginTop: '10px', marginBottom: '0px'}} onClick={createCustomPlayist}>CREATE FINAL PLAYLIST FOR : {window.localStorage.getItem("playlistName")}</button></div>}
 
