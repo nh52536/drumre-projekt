@@ -19,11 +19,15 @@ import java.lang.management.PlatformLoggingMXBean;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PlaylistService {
     private PlaylistRepository playlistRepository;
+
+    @Autowired
+    SongInPlaylistService songInPlaylistService;
 
     @Autowired
     public PlaylistService(PlaylistRepository playlistRepository) {
@@ -67,20 +71,52 @@ public class PlaylistService {
                 "    \"public\": true\n" +
                 "}";
 
-        System.out.println(body);
-
         HttpEntity<String> request = new HttpEntity<>(body, headers);
         URI uri = new URI("https://api.spotify.com/v1/users/" + userId + "/playlists");
 
-        System.out.println(uri);
-
         String response = restTemplate.postForObject(uri, request, String.class);
-
-        System.out.println(response);
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode responseJson = objectMapper.readTree(response);
 
+        addItemsToPlaylist(token, playlistId, responseJson.path("id").asText());
+
         return responseJson.path("external_urls").path("spotify").asText();
+    }
+
+    public String addItemsToPlaylist(String token, PlaylistId playlistId, String playlistSpotifyId) throws URISyntaxException, JsonProcessingException {
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Accept", "application/json");
+
+        Playlist playlist = playlistRepository.findById(playlistId).get();
+        List<SongInPlaylist> lista = playlist.getSongs();
+        int tracks = lista.size();
+
+        System.out.println(" /////// ");
+
+        String body = "{\n" +
+                "    \"uris\" : [\n";
+        for (int i = 0; i < tracks; i++) {
+            body += "        \"spotify:track:";
+            body += lista.get(i).getSong().getSongId();
+            body += "\"";
+            if (i + 1 < tracks) body += ",";
+            body += "\n";
+        }
+        body += "    ],\n";
+        body += "    \"position\" : 0\n";
+        body += "}";
+
+        System.out.println(body);
+        System.out.println(" /////// ");
+
+        HttpEntity<String> request = new HttpEntity<>(body, headers);
+        URI uri = new URI("https://api.spotify.com/v1/playlists/" + playlistSpotifyId + "/tracks");
+
+        return restTemplate.postForObject(uri, request, String.class);
     }
 }

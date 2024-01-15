@@ -168,11 +168,6 @@ public class PlaylistController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> createCustomPlaylist(@RequestBody CreateCustomPlaylistRequest request) throws URISyntaxException, JsonProcessingException {
-        System.out.println(request.getToken());
-        System.out.println(request.getPlaylistId().getPlaylistName());
-        System.out.println(request.getPlaylistId().getCreatorUsername());
-        System.out.println(request.getId());
-        System.out.println(" ///////// ");
         String playlistUri = playlistService.createCustomPlaylist(request.getToken(), request.getPlaylistId(), request.getId());
 
         return new ResponseEntity<>(playlistUri, HttpStatus.OK);
