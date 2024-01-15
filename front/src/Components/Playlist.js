@@ -234,7 +234,6 @@ function Playlist({ username }) {
     }
 
 const getTrackesBasedOnGenreAndAll = async (e) => {
-        e.preventDefault();
         let token = window.localStorage.getItem("token");
         let genres = selectedGenres.join(",");
         let min = rangeValues.min;
@@ -327,7 +326,7 @@ const getTrackesBasedOnGenreAndAll = async (e) => {
                         Selected range: {rangeValues.min} - {rangeValues.max}
                     </p>
                 </div>
-                <button onClick={getTrackesBasedOnGenreAndAll()}></button>
+                <button onClick={() => getTrackesBasedOnGenreAndAll}></button>
             </div>
             <hr className="double-line" />
             {displaySearch && (
