@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5db4bfd2-3331-408f-b3ce-61d1d2d9a703" name="Changes" comment="Added">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/src/main/java/com/example/drumreback/Controllers/PlaylistController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/main/java/com/example/drumreback/Controllers/PlaylistController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/src/main/java/com/example/drumreback/Entities/Playlist.java" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/main/java/com/example/drumreback/Entities/Playlist.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back/src/main/java/com/example/drumreback/Services/PlaylistService.java" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/main/java/com/example/drumreback/Services/PlaylistService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/Components/GroupComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/Components/GroupComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/Components/Playlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/Components/Playlist.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

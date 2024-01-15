@@ -100,6 +100,12 @@ public class PlaylistService {
         List<SongInPlaylist> lista = playlist.getSongs();
         int tracks = lista.size();
 
+
+
+
+
+
+
         System.out.println(" /////// ");
 
         String body = "{\n" +

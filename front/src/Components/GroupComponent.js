@@ -1,5 +1,5 @@
 import Playlist from "./Playlist";
-import {useState} from "react";
+import React, {useState} from "react";
 import axios from "axios";
 
 
@@ -17,6 +17,8 @@ function GroupComponent() {
     const [warning, setWarning] = useState(false)
     const [noPlaylist, setNoPlaylist] = useState(false)
     const [href, setHref] = useState("")
+    const [hrefBool, setHrefBool] = useState("")
+
 
     async function enterAGroup() {
         //TODO : axios call to backend to see if group exists, if a group exists setSeePlalyist to true
@@ -28,17 +30,27 @@ function GroupComponent() {
                 'Content-Type': 'application/json'
             }
         });
-
-
-        if (response.data == true) {
-            setSeePlaylist(true)
-            window.localStorage.setItem("creatorUsername", creator)
-            window.localStorage.setItem("playlistName", playListName)
-            setNoPlaylist(false)
-            setSeeEnter(false)
-            setSeePlaylist(true)
+        setHrefBool(false)
+        let link = response.data.uri
+        let exists = response.data.exists
+        if(link !== "") {
+            setHref(link)
+            setHrefBool(true)
         } else {
-            setNoPlaylist(true)
+            if (response.data.uri == true) {
+                setSeePlaylist(true)
+                window.localStorage.setItem("creatorUsername", creator)
+                window.localStorage.setItem("playlistName", playListName)
+                setNoPlaylist(false)
+                setSeeEnter(false)
+                setSeePlaylist(true)
+                setHrefBool(false)
+
+            } else {
+                setNoPlaylist(true)
+                setHrefBool(false)
+
+            }
         }
 
     }
@@ -127,6 +139,9 @@ function GroupComponent() {
                 </div>
 
             }
+            {hrefBool &&      <a href={href} target="_blank" rel="noopener noreferrer">PLAYLIST IS ALREADY CREATED FOR THAT GROUP</a>}
+
+            <div></div>
         </div>
 
     )

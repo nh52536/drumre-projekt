@@ -16,12 +16,16 @@ function Playlist({ username }) {
     const [showArtistInfo, setShowArtistInfo] = useState(false);
     const [selectedSongs, setSelectedSongs] = useState([]);
     const [authorTrack, setAuthorTrack] = useState([]);
+    const [authorTrack2, setAuthorTrack2] = useState([]);
+
     const [displaySearch, setDisplaySearch] = useState(true);
     const [inputValue, setInputValue] = useState('');
     const [authorId, setAuthorId] = useState("");
     const [pop, setPop] = useState("");
     const [selectedGenres, setSelectedGenres] = useState([]);
     const [recommendedSongs, setRecommendedSongs] = useState([]);
+    const [playlistCreated, setPlaylistCreated] = useState(false);
+    const [href,setHref] = useState("");
     const genres = ["acoustic", "alt-rock", "alternative", "blues", "bossanova", "classical", "country", "dance", "disco", "dubstep",
         "edm", "electronic", "folk", "funk", "grunge", "hard-rock", "heavy-metal", "hip-hop", "house", "indie", "jazz", "k-pop", "latino",
         "metal", "pop", "punk", "r-n-b", "reggae", "reggaeton", "rock", "rock-n-roll", "sertanejo", "ska", "soul", "synth-pop", "techno", "trance",
@@ -90,6 +94,7 @@ function Playlist({ username }) {
                 },
             }
         );
+
         setPlaylistTracks(data.items);
         setSelectedPlaylist(playlistId);
     };
@@ -106,6 +111,7 @@ function Playlist({ username }) {
                 <div className="track-info">
                     <div className="track-popul">{track.track.popularity}</div>
                     <div className="track-name">{track.track.name}</div>
+                    <div className="track-name"> 📈 {track.track.popularity}</div>
                     <div className="track-artist">
                         Artist: {track.track.artists[0].name}
                         {!selectedSongs.includes(track.track.id) && (
@@ -183,8 +189,40 @@ function Playlist({ username }) {
                 />
                 <div className="track-info">
                     <div className="track-name">{track.name}</div>
+                    <div className="track-name"> 📈 {track.popularity}</div>
                     <div className="track-artist">
                     Artist: {track.artists[0].name}
+                        {!selectedSongs.includes(track.id) && (
+                            <button className="heart-button"
+                                    onClick={() => addToSelectedSongs(track.id, track.artists[0].id, track.popularity)}>
+                                ❤
+                            </button>
+                        )}
+                        {selectedSongs.includes(track.id) && (
+                            <button className="heart-button"
+                                    onClick={() => removeFromSelectedSongs(track.id, track.artists[0].id, track.popularity)}>
+                                ❤️
+                            </button>
+                        )}
+                    </div>
+                </div>
+            </div>
+        ));
+    };
+
+    const renderAuthorTracks2 = () => {
+        return authorTrack2.map((track) => (
+            <div key={track.id} className="track-item">
+                <img
+                    src={track.album.images[0].url}
+                    alt={`${track.name} Album Cover`}
+                    className="track-image"
+                />
+                <div className="track-info">
+                    <div className="track-name">{track.name}</div>
+                    <div className="track-name"> 📈 {track.popularity}</div>
+                    <div className="track-artist">
+                        Artist: {track.artists[0].name}
                         {!selectedSongs.includes(track.id) && (
                             <button className="heart-button"
                                     onClick={() => addToSelectedSongs(track.id, track.artists[0].id, track.popularity)}>
@@ -253,7 +291,7 @@ function Playlist({ username }) {
             }
         });
         console.log(data.tracks);
-        setAuthorTrack(data.tracks);
+        setAuthorTrack2(data.tracks);
     };
 
 
@@ -270,7 +308,7 @@ function Playlist({ username }) {
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
+        }).then((response) => {setHref(response.data); setPlaylistCreated(true)});
     };
 
     return (
@@ -338,6 +376,7 @@ function Playlist({ username }) {
                     </p>
                 </div>
                 <button onClick={getTrackesBasedOnGenreAndAll}></button>
+                <div>{renderAuthorTracks2()}</div>
             </div>
             <hr className="double-line" />
             {displaySearch && (
@@ -370,7 +409,7 @@ function Playlist({ username }) {
                     )}
                         {window.localStorage.getItem("creatorUsername") === window.localStorage.getItem("email") &&
                 <div><button style={{marginLeft: '70px', marginRight: '70px', marginTop: '10px', marginBottom: '0px'}} onClick={createCustomPlayist}>CREATE FINAL PLAYLIST FOR : {window.localStorage.getItem("playlistName")}</button></div>}
-
+                    {playlistCreated &&      <a href={href} target="_blank" rel="noopener noreferrer">CREATED PLAYLIST</a>}
                 </div>
             )}
 

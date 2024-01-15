@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal" created-in="IU-233.13135.103">
+  <component name="dataSourceStorageLocal" created-in="IU-231.9011.34">
     <data-source name="@localhost" uuid="0f9a92a9-81e5-471f-8a28-354817e4a78d">
       <database-info product="Mongo DB" version="7.0.5" jdbc-version="4.2" driver-name="MongoDB JDBC Driver" driver-version="1.18" dbms="MONGO" exact-version="7.0.5" exact-driver-version="1.18" />
       <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
@@ -16,8 +16,7 @@
       </schema-mapping>
     </data-source>
     <data-source name="drumre@localhost" uuid="72aada0d-f60c-4e09-99e5-c13c25af3eb2">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MONGO" />
-      <user-name>user</user-name>
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MONGO" exact-version="0" />
       <schema-mapping />
     </data-source>
   </component>
