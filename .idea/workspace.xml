@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="5db4bfd2-3331-408f-b3ce-61d1d2d9a703" name="Changes" comment="Added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/src/main/java/com/example/drumreback/Controllers/PlaylistController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/main/java/com/example/drumreback/Controllers/PlaylistController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/src/main/java/com/example/drumreback/Entities/Playlist.java" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/main/java/com/example/drumreback/Entities/Playlist.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/src/main/java/com/example/drumreback/Services/PlaylistService.java" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/main/java/com/example/drumreback/Services/PlaylistService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +84,7 @@
       <recent name="C:\Users\38599\repos\DIGOBRZ\drumre-proba\front" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.start">
+  <component name="RunManager" selected="Spring Boot.DrumreBackApplication">
     <configuration name="DrumreBackApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="drumre-back" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.drumreback.DrumreBackApplication" />
@@ -123,8 +120,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.start" />
         <item itemvalue="Spring Boot.DrumreBackApplication" />
+        <item itemvalue="npm.start" />
       </list>
     </recent_temporary>
   </component>
@@ -148,7 +145,7 @@
       <workItem from="1705268286118" duration="204000" />
       <workItem from="1705269778541" duration="2376000" />
       <workItem from="1705273082458" duration="8918000" />
-      <workItem from="1705317351575" duration="8649000" />
+      <workItem from="1705317351575" duration="12069000" />
     </task>
     <task id="LOCAL-00001" summary="Added">
       <created>1705268963863</created>
