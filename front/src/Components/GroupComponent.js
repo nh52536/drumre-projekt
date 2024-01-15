@@ -103,7 +103,7 @@ function GroupComponent() {
                 setNoPlaylist(false)
                 setCreator("")
                 setPlayListName("")
-            }}>CLOSE ALL NAD RETRUN TO CHOOSE A GROUP</button>}
+            }}>CLOSE ALL AND RETURN TO CHOOSE A GROUP</button>}
 
             {seeEnter &&
                 <div className="group-container">

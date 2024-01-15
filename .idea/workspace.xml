@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5db4bfd2-3331-408f-b3ce-61d1d2d9a703" name="Changes" comment="Added">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/Components/GroupComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/Components/GroupComponent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/Components/Playlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/Components/Playlist.js" afterDir="false" />
-    </list>
+    <list default="true" id="5db4bfd2-3331-408f-b3ce-61d1d2d9a703" name="Changes" comment="Added" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -122,8 +118,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.DrumreBackApplication" />
         <item itemvalue="npm.start" />
+        <item itemvalue="Spring Boot.DrumreBackApplication" />
       </list>
     </recent_temporary>
   </component>
