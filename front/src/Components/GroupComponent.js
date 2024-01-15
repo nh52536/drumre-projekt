@@ -33,11 +33,14 @@ function GroupComponent() {
         setHrefBool(false)
         let link = response.data.uri
         let exists = response.data.exists
-        if(link !== "") {
+        if(link !== "null") {
             setHref(link)
             setHrefBool(true)
-        } else {
-            if (response.data.uri == true) {
+        }else if  ( link !== "") {
+            setHref(link)
+            setHrefBool(true)
+        } else if(link === "null" && link === ""){
+            if (response.data.uri === true) {
                 setSeePlaylist(true)
                 window.localStorage.setItem("creatorUsername", creator)
                 window.localStorage.setItem("playlistName", playListName)
