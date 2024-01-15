@@ -7,6 +7,8 @@ import com.example.drumreback.Services.SongInPlaylistService;
 import com.example.drumreback.Services.SongService;
 import com.example.drumreback.Services.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,16 +47,26 @@ public class PlaylistController {
                 consumes = MediaType.APPLICATION_JSON_VALUE,
                 produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<Boolean> join(@RequestBody GetLikedSongsRequest request) {
+    public ResponseEntity<String> join(@RequestBody GetLikedSongsRequest request) {
         Optional<Playlist> optionalPlaylist = playlistService.findPlaylistById(request.getPlaylistId());
 
         if (optionalPlaylist.isPresent()) {
             userService.addUserToPlaylist(userService.findUserById(request.getUsername()).get(), playlistService.findPlaylistById(request.getPlaylistId()).get());
 
-            return new ResponseEntity<>(true, HttpStatus.OK);
+            String ret = "{\n" +
+                    "    \"uri\" : \"" + optionalPlaylist.get().getUri() + "\",\n" +
+                    "    \"exists\" : true\n" +
+                    "}";
+
+            return new ResponseEntity<>(ret, HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<>(false, HttpStatus.OK);
+            String ret = "{\n" +
+                    "    \"uri\" : \"\",\n" +
+                    "    \"exists\" : false\n" +
+                    "}";
+
+            return new ResponseEntity<>(ret, HttpStatus.OK);
         }
     }
 

@@ -15,5 +15,5 @@ public class Playlist {
     private PlaylistId playlistId;
     private List<String> users;
     private List<SongInPlaylist> songs;
-
+    private String uri;
 }

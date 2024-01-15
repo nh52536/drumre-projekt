@@ -42,8 +42,9 @@ public class PlaylistService {
         ArrayList<String> users = new ArrayList<>();
         users.add(playlistId.getCreatorUsername());
         ArrayList<SongInPlaylist> songs = new ArrayList<>();
+        String uri = "";
 
-        Playlist playlist = new Playlist(playlistId, users, songs);
+        Playlist playlist = new Playlist(playlistId, users, songs, uri);
 
         playlistRepository.save(playlist);
 
@@ -81,6 +82,9 @@ public class PlaylistService {
 
         addItemsToPlaylist(token, playlistId, responseJson.path("id").asText());
 
+        Playlist playlist = playlistRepository.findById(playlistId).get();
+        playlist.setUri(responseJson.path("external_urls").path("spotify").asText());
+        playlistRepository.save(playlist);
         return responseJson.path("external_urls").path("spotify").asText();
     }
 
