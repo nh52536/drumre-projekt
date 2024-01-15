@@ -407,7 +407,7 @@ function Playlist({ username }) {
                             <div>{renderAuthorTracks()}</div>
                         </div>
                     )}
-                        {window.localStorage.getItem("creatorUsername") === window.localStorage.getItem("email") &&
+                        {selectedSongs.length !== 0 && window.localStorage.getItem("creatorUsername") === window.localStorage.getItem("email") &&
                 <div><button style={{marginLeft: '70px', marginRight: '70px', marginTop: '10px', marginBottom: '0px'}} onClick={createCustomPlayist}>CREATE FINAL PLAYLIST FOR : {window.localStorage.getItem("playlistName")}</button></div>}
                     {playlistCreated &&      <a href={href} target="_blank" rel="noopener noreferrer">CREATED PLAYLIST</a>}
                 </div>
